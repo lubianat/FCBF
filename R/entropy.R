@@ -11,11 +11,11 @@ entropy <- function(x, base = exp(1)) {
   }
   x <- factor(x)
   t <- table(x)
-  p <- t / sum(t)
+  probabily_of_t <- t / sum(t)
   if (any(t == 0)) {
-    p <- p[-which(t == 0)]
+    probabily_of_t <- probabily_of_t[-which(t == 0)]
   }
-  ent <- -1 * sum(p * log(p) / log(base))
+  ent <- -1 * sum(probabily_of_t * log(probabily_of_t) / log(base))
   if (is.na(ent)) {
     ent <- 0
   }
@@ -30,11 +30,11 @@ entropy.joint <- function(x, y, base = exp(1)) {
   x <- factor(x)
   y <- factor(y)
   t <- table(x, y)
-  p <- as.numeric(t / sum(t))
+  probabily_of_t <- as.numeric(t / sum(t))
   if (any(p == 0)) {
-    p <- p[-which(p == 0)]
+    probabily_of_t <- probabily_of_t[-which(p == 0)]
   }
-  ent <- -1 * sum(p * log(p) / log(base))
+  ent <- -1 * sum(probabily_of_t * log(probabily_of_t) / log(base))
   if (is.na(ent)) {
     ent <- 0
   }
