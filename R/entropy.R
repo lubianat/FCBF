@@ -55,13 +55,14 @@ entropy.cond <- function(x, y, base = exp(1)) {
 
 # Formula for symetrical uncertainty as described in  Yu, L. and Liu, H. , 2003.
 SU <- function(x, y, base = exp(1)) {
-
   if (is.character(x)) {
     x <- as.factor(x)
   }
   if (!is.factor(x) || !is.factor(y)) {
-    stop("For calculating the symmetrical uncertainty, the vectors x & y must be factors.
-         Using a continuous(numeric) feature set leads to this error.")
+    stop(
+      "For calculating the symmetrical uncertainty, the vectors x & y must be factors.
+      Using a continuous(numeric) feature set leads to this error."
+    )
   }
 
   Ht <- entropy.joint(x, y, base)
@@ -69,7 +70,7 @@ SU <- function(x, y, base = exp(1)) {
   Hy <- entropy(y, base)
   #cat(Ht,' ',Hx,' ',Hy,'\n')
 
-# Returns the symmetrical uncertainty value for the vector pair
+  # Returns the symmetrical uncertainty value for the vector pair
   2 * (Hy + Hx - Ht) / (Hx + Hy)
 
-}
+  }

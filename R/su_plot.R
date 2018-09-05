@@ -1,4 +1,5 @@
 
+
 #'  Symmetrical Uncertainty diagnostic
 #'
 #' This functions runs symmetrical uncertainty for a feature table and a class, returning
@@ -17,8 +18,10 @@
 #' su_plot(discrete_expression,target)
 
 
-su_plot <- function(x, y){
- x <- data.frame(x)
- su_ic <- apply(x, 2, function(xx, yy) {  SU(xx, yy)}, y)
- hist(su_ic)
+su_plot <- function(x, y) {
+  x <- data.frame(x)
+  su_ic <- apply(x, 2, function(xx, yy) {
+    SU(xx, yy)
+  }, y)
+  hist(su_ic)
 }

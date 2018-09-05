@@ -184,7 +184,7 @@ We expect that by carefully implementing and documenting FCBF in R, this package
 Li, J., Cheng, K., Wang, S., Morstatter, F., Trevino, R. P., Tang, J., & Liu, H. (2017). Feature selection: A data perspective. ACM Computing Surveys (CSUR), 50(6), 94.
 
 
-We note that other techniques based on predominant correlation might be better for heterogeneous dataset. FCBF provides a interpretable and robust option, with results that are genreally good.
+We note that other techniques based on predominant correlation might be better depending on the dataset and the objectives. FCBF provides a interpretable and robust option, with results that are generally good.
 
 The application of filter-based feature selections for big data analysis in the biomedical sciences can have not only a direct effect in classification efficiency but might lead to interesting biological interpretations and possible quick identification of biomarkers. 
 

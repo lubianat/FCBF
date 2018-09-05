@@ -26,8 +26,10 @@ discretize_exprs <- function(expression_table, number_of_bins = 3) {
 
 
 split_vector_in_two <-
-  function(gene_expression_across_samples, n_of_bins=3) {
-    gene_expression_across_samples <- as.numeric(gene_expression_across_samples)
+  function(gene_expression_across_samples,
+           n_of_bins = 3) {
+    gene_expression_across_samples <-
+      as.numeric(gene_expression_across_samples)
     max_expression = max(gene_expression_across_samples)
     min_expression = min(gene_expression_across_samples)
     break_size = (max_expression - min_expression) / n_of_bins

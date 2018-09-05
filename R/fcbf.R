@@ -55,7 +55,7 @@ fcbf <- function(x, y, thresh = 0.25, verbose = FALSE) {
   }, y)
 
   s_prime <-
-    data.frame(f = (seq_len(nvar))[which(su_ic >= thresh)], su = su_ic[which(su_ic >= thresh)])
+    # data.frame(f = (seq_len(nvar))[which(su_ic >= thresh)], su = su_ic[which(su_ic >= thresh)])
 
   s_prime <- s_prime[sort.list(s_prime$su, decreasing = TRUE),]
 
