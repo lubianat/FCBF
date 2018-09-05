@@ -48,14 +48,15 @@ data(single_cell_dengue_exprs)
 head(single_cell_dengue_exprs[,1:4])
 ```
 
-This normalized single cell expression can be used in machinel learning (ML) models to obtain classifiers for
+This normalized single cell expression can be used in machine learning (ML) models to obtain classifiers for
 dengue x control macrophage. One of the ideas behind the ML approach to RNA-Seq data is to use features that are important for classification as biomarkers, for experimental characterization and inference of involved pathways. Overfitting and extensive computational time are, thus big problems that feature selection intends to help.
 
 For the feature selection approach implemented here, the gene expression has to be discretized, as the entropy concept behind the symmetrical uncertainty is built upon discrete classes.
 
 There is no consensus of the optimal way of discretizing gene expression, and this is even more true to single cell RNA-Seq. The discretize_exprs function simply gets the range of expression (min to max) for each gene and assigns the first third the label of "low" and, to the other two, the label of "high". 
-In this way, all the zeroes and low expression values are assigned the label "low" in a gene-dependent manner.
-Notably, this step is only done for variable selection, and the models can be run with the original dataset.
+In this way, all the zeros and low expression values are assigned the label "low" in a gene-dependent manner.
+
+Notably, this step is only done for variable selection, and the models can be run with the original, continuous, numeric, features. 
 
 
 ```{r}
@@ -94,7 +95,8 @@ As you can see, we get an error.
 
 "Error in fcbf(discrete_expression, target, verbose = TRUE) : No prospective features for this threshold level. Threshold: 0.25"
 
-That is because the built-in threshold for the SU, 0.25, is too high for this data set. You can use the function 'su_plot' to decide for yourself which treshold is the best
+That is because the built-in threshold for the SU, 0.25, is too high for this data set. You can use the function 'su_plot' to decide for yourself which threshold is the best
+
 
 ```{r}
 
@@ -108,7 +110,7 @@ Seems like 0.05 is something reasonable for this dataset. This changes, of cours
 fcbf_features <- fcbf(discrete_expression, target, thresh = 0.05, verbose = TRUE)
 
 ```
-In the end, this process has selected a very low number of variables in comparison with the orginal dataset. 
+In the end, this process has selected a very low number of variables in comparison with the original dataset. 
 Now we should see if they are really useful for classification. First, we will get a 'mini feature table', just with the selected variables and a table for comparison, with the 100 most variable genes
 
 ```{r}
@@ -137,7 +139,7 @@ control <- trainControl(method="cv", number=5, classProbs=TRUE, summaryFunction=
 
 ```
 
-In the code above we created a plan to test the classifiers by 5-fold cross validation. Any classifier can be used, but for illustration, here we will use the very popular radial svm. As metric for comparison we will use the area-under-the-curve (AUC) of the receiver operating characteristic (ROC) curve. :
+In the code above we created a plan to test the classifiers by 5-fold cross validation. Any classifier can be used, but for illustration, here we will use the very popular radial svm. As metric for comparison we will use the area-under-the-curve (AUC) of the receiver operating characteristic (ROC) curve :
 
 ```{r}
 
@@ -179,7 +181,7 @@ As we can see, the selected variables gave rise to a better SVM model than selec
 
 Even though tools are available for feature selection in packages such as FSelector (https://cran.r-project.org/web/packages/FSelector/FSelector.pdf), up to date, there were no easy implementations in R for FCBF. The article describing FCBF has more than 1800 citations, but almost none from the biomedical community. 
 
-We expect that by carefully implementing and documenting FCBF in R, this package might improve usage of filter-based feature selection approaches that aim at reducing redundancy among selected features. Other tools similar to FCBF are availabe in Weka (https://www.cs.waikato.ac.nz/ml/weka/) and Python/scikit learn (http://featureselection.asu.edu/). A recent good review, for those interested in going deeper, is the following ref:
+We expect that by carefully implementing and documenting FCBF in R, this package might improve usage of filter-based feature selection approaches that aim at reducing redundancy among selected features. Other tools similar to FCBF are available in Weka (https://www.cs.waikato.ac.nz/ml/weka/) and Python/scikit learn (http://featureselection.asu.edu/). A recent good review, for those interested in going deeper, is the following ref:
 
 Li, J., Cheng, K., Wang, S., Morstatter, F., Trevino, R. P., Tang, J., & Liu, H. (2017). Feature selection: A data perspective. ACM Computing Surveys (CSUR), 50(6), 94.
 
@@ -187,4 +189,5 @@ Li, J., Cheng, K., Wang, S., Morstatter, F., Trevino, R. P., Tang, J., & Liu, H.
 We note that other techniques based on predominant correlation might be better depending on the dataset and the objectives. FCBF provides a interpretable and robust option, with results that are generally good.
 
 The application of filter-based feature selections for big data analysis in the biomedical sciences can have not only a direct effect in classification efficiency but might lead to interesting biological interpretations and possible quick identification of biomarkers. 
+
 
