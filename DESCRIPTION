@@ -2,8 +2,9 @@ Package: FCBF
 Type: Package
 Title: Fast Correlation Based Filter for Feature Selection
 Version: 0.99.0
-Authors@R: person("Tiago", "Lubiana", email = "tiago.lubiana.alves@usp.br",
-  role = c("aut", "cre"))
+Authors@R: c(person("Tiago", "Lubiana", email = "tiago.lubiana.alves@usp.br",
+  role = c("aut", "cre")), person("Helder", "Nakaya", email = "hnkaya@usp.br",
+  role = c("aut","ths")))
 Maintainer: Tiago Lubiana <tiago.lubiana.alves@usp.br>
 Description: This package provides a simple R implementation for the Fast Correlation Based Filter described in Yu, L. and Liu, H.; Feature Selection for High-Dimensional Data: A Fast Correlation Based Filter Solution,Proc. 20th Intl. Conf. Mach. Learn. (ICML-2003), Washington DC, 2003
     The current package is an intent to make easier for bioinformaticians to use FCBF for feature selection, especially regarding transcriptomic data.This implies discretizing expression (function discretize_exprs) before calculating the features that explain the class, but are not predictable by other features.

@@ -1,4 +1,4 @@
 language: R
-r: bioc-devel
+r: bioc-release
 cache: packages
 sudo: false
