@@ -7,7 +7,7 @@
 fcbf(x, y, thresh = 0.25, verbose = FALSE)
 }
 \arguments{
-\item{x}{A table of features (observations in rows, variables in columns)}
+\item{x}{A table of features (samples in rows, variables in columns, and each observation in each cell)}
 
 \item{y}{A target vector, factor containing classes of the observations. Note: the
 observations must be in the same order as the parameter x}
@@ -28,6 +28,9 @@ The function is based on the algorithm described in
 Yu, L. and Liu, H.; Feature Selection
 for High-Dimensional Data A Fast Correlation Based Filter Solution,
 Proc. 20th Intl. Conf. Mach. Learn. (ICML-2003), Washington DC, 2003
+}
+\details{
+Obs: For gene expression, you will need to run discretize_exprs first
 }
 \examples{
 data(single_cell_dengue_exprs)
