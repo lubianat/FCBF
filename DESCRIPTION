@@ -20,4 +20,4 @@ Suggests: caret, mlbench,
     testthat
 biocViews: GeneTarget, FeatureExtraction, Classification, GeneExpression, SingleCell
 VignetteBuilder: knitr
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.4.0)
