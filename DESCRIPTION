@@ -17,7 +17,8 @@ Imports: graphics
 Suggests: caret, mlbench,
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    BiocManager
 biocViews: GeneTarget, FeatureExtraction, Classification, GeneExpression, SingleCell
 VignetteBuilder: knitr
 Depends: R (>= 3.4.0)
