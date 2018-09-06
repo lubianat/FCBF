@@ -99,7 +99,6 @@ That is because the built-in threshold for the SU, 0.25, is too high for this da
 
 
 ```{r}
-
 su_plot(discrete_expression,target)
 ```
 
