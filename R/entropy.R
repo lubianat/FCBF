@@ -32,7 +32,7 @@ entropy.joint <- function(x, y, base = exp(1)) {
   t <- table(x, y)
   probabily_of_t <- as.numeric(t / sum(t))
   if (any(probabily_of_t == 0)) {
-    probabily_of_t <- probabily_of_t[-which(p == 0)]
+    probabily_of_t <- probabily_of_t[-which(probabily_of_t== 0)]
   }
   ent <- -1 * sum(probabily_of_t * log(probabily_of_t) / log(base))
   if (is.na(ent)) {

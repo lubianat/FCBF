@@ -29,7 +29,10 @@ source('R/entropy.R')
 #' Yu, L. and Liu, H.; Feature Selection
 #' for High-Dimensional Data A Fast Correlation Based Filter Solution,
 #' Proc. 20th Intl. Conf. Mach. Learn. (ICML-2003), Washington DC, 2003
-#' @param x A table of features (observations in rows, variables in columns)
+#'
+#' Obs: For gene expression, you will need to run discretize_exprs first
+#'
+#' @param x A table of features (samples in rows, variables in columns, and each observation in each cell)
 #' @param y A target vector, factor containing classes of the observations. Note: the
 #' observations must be in the same order as the parameter x
 #' @param thresh A threshold for the minimum correlation (as determined by symettrical uncertainty)
@@ -54,8 +57,7 @@ fcbf <- function(x, y, thresh = 0.25, verbose = FALSE) {
     SU(xx, yy)
   }, y)
 
-  s_prime <-
-    # data.frame(f = (seq_len(nvar))[which(su_ic >= thresh)], su = su_ic[which(su_ic >= thresh)])
+  s_prime <- data.frame(f = (seq_len(nvar))[which(su_ic >= thresh)], su = su_ic[which(su_ic >= thresh)])
 
   s_prime <- s_prime[sort.list(s_prime$su, decreasing = TRUE),]
 
