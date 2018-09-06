@@ -37,5 +37,5 @@ data(single_cell_dengue_exprs)
 discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
 head(discrete_expression[,1:4])
 data("single_cell_dengue_annot")
-fcbf(discrete_expression,target, tresh = 0.05)
+fcbf(discrete_expression,target, thresh = 0.05)
 }
