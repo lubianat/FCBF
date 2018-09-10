@@ -45,6 +45,7 @@ source('R/entropy.R')
 #' discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
 #' head(discrete_expression[,1:4])
 #' data("single_cell_dengue_annot")
+#' target <- single_cell_dengue_annot
 #' fcbf(discrete_expression,target, thresh = 0.05)
 #' @export
 fcbf <- function(x, y, thresh = 0.25, verbose = FALSE) {
