@@ -15,6 +15,7 @@
 #' discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
 #' head(discrete_expression[,1:4])
 #' data("single_cell_dengue_annot")
+#' target <- single_cell_dengue_annot
 #' su_plot(discrete_expression,target)
 
 
