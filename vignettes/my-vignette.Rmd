@@ -2,7 +2,13 @@
 title: "FCBF :  Fast Correlation Based Filter for Feature Selection"
 author: "Tiago Lubiana"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  html_document:
+    theme: readable
+    highlight: tango
+    fig_width: 17
+    fig_height: 10
+    toc: false
 vignette: >
   %\VignetteIndexEntry{FCBF :  Fast Correlation Based Filter for Feature Selection}
   %\VignetteEngine{knitr::rmarkdown}
@@ -10,6 +16,7 @@ vignette: >
 ---
 
 ```{r setup, include = TRUE}
+library(knitr)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -75,7 +82,7 @@ The filter approaches as FCBF do not target a specific machine learning model. H
 
 ```{r}
 
-# discretize expression data
+#load annotation data
 data("single_cell_dengue_annot")
 head(single_cell_dengue_annot)
 
