@@ -63,8 +63,9 @@ For the feature selection approach implemented here, the gene expression has to 
 There is no consensus of the optimal way of discretizing gene expression, and this is even more true to single cell RNA-Seq. The \code{discretize_exprs} function simply gets the range of expression (min to max) for each gene and assigns the first third the label of "low" and, to the other two, the label of "high". 
 In this way, all the zeros and low expression values are assigned the label "low" in a gene-dependent manner.
 
-Notably, this step is only done for variable selection, and the models can be run with the original, continuous, numeric, features. 
+Notably, this step is only done for variable selection. When you fit machine learning models with those variables, you can still use the original, continuous, numeric, features. 
 
+Oh, the \code{discretize_exprs} function also transposes the data frame to organize the genes in the columns and samples in the rows, as this is the input for \code{fcbf}
 
 ```{r}
 
