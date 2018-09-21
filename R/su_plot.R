@@ -27,7 +27,6 @@ su_plot <- function(x, y) {
     SU(xx, yy)
   }, y)
   su_ic <- as.data.frame(su_ic)
-  hist(su_ic)
   p1 <- ggplot(su_ic, (aes(x=su_ic)))+
     geom_histogram(binwidth= 0.008) +
     xlab('Correlation by Symmetrical Uncertainty to target') +
