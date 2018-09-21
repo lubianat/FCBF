@@ -5,6 +5,7 @@
 #' samples/observations in columns) and uses it for a width-based discretization.
 #' Each feature is divide into "n" bins of equal width. The first bin is
 #' attributed the class 'low' and the next bins are assigned to "high".
+#' It transposes the original expression table.
 #'
 #' @param expression_table  A previously normalized expression table (genes/variables in rows,
 #' samples/observations in columns)
@@ -14,7 +15,8 @@
 #' first bin becoming one class ('low') and the other bins, another class ('high').
 #' Defaults to 3.
 #' @export
-#' @return A data frame with the discretized features (observations in rows, variables in columns)
+#' @return A data frame with the discretized features (observations in rows, variables in columns).
+#' Notice: it is transposed regarding the data frame inserted as input.
 #' @examples
 #' data(single_cell_dengue_exprs)
 #' discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
