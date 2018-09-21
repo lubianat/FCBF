@@ -9,7 +9,8 @@
 #' observations must be in the same order as the parameter x.
 #' @return Plots an histogram of symmetrical uncertainty values regarding the class.
 #' @export
-#' @importFrom graphics hist
+#' @import ggplot2
+#' @importFrom gridExtra grid.arrange
 #' @examples
 #' data(single_cell_dengue_exprs)
 #' discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))

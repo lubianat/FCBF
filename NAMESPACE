@@ -3,4 +3,5 @@
 export(discretize_exprs)
 export(fcbf)
 export(su_plot)
-importFrom(graphics,hist)
+import(ggplot2)
+importFrom(gridExtra,grid.arrange)
