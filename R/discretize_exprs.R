@@ -35,7 +35,7 @@ split_vector_in_two <-
     max_expression = max(gene_expression_across_samples)
     min_expression = min(gene_expression_across_samples)
     break_size = (max_expression - min_expression) / n_of_bins
-    return(ifelse(gene_expression_across_samples < break_size,  'low', 'high'))
+    return(ifelse(gene_expression_across_samples < (min_expression+break_size),  'low', 'high'))
   }
 
 # exprs <- data.frame(fread('../RawCounts_Infection.txt'))
