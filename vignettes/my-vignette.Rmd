@@ -52,9 +52,10 @@ BiocManager::install("FCBF")
 ```
 ```{r}
 library("FCBF")
+library(SummarizedExperiment)
 # load expression data
 data(scDengue)
-exprs <- scDengue@assays$data$logcounts
+exprs <- SummarizedExperiment::assay(scDengue,'logcounts')
 head(exprs[,1:4])
 ```
 
@@ -86,7 +87,7 @@ The filter approaches as FCBF do not target a specific machine learning model. H
 ```{r}
 
 #load annotation data
-infection <- scDengue@colData
+infection <- SummarizedExperiment::colData(scDengue)
 
 
 # get the class variable

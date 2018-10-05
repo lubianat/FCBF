@@ -13,8 +13,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: True
 RoxygenNote: 6.1.0.9000
-Imports: ggplot2, gridExtra
-Suggests: caret, mlbench,
+Imports: ggplot2, gridExtra, SummarizedExperiment
+Suggests: caret, mlbench, SingleCellExperiment, 
     knitr,
     rmarkdown,
     testthat,

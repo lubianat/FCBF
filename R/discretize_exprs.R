@@ -1,3 +1,5 @@
+#' @importMethodsFrom SummarizedExperiment assay
+NULL
 #' discretize_exprs
 #' Simple discretizing of gene expression
 #'
@@ -14,13 +16,14 @@
 #' Note: it is a binary discretization, with the
 #' first bin becoming one class ('low') and the other bins, another class ('high').
 #' Defaults to 3.
-#' @export
 #' @return A data frame with the discretized features in the same order as previously
+#' @export
 #' @examples
 #' data(scDengue)
-#' exprs <- scDengue@assays$data$logcounts
+#' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' head(discrete_expression[,1:4])
+
 
 discretize_exprs <- function(expression_table, number_of_bins = 3) {
 
