@@ -21,13 +21,13 @@
 #' @source \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE110496}{GEO}
 #' @examples
 #' data(scDengue)
-#' infection <- colData(scDengue)
+#' infection <- scDengue@colData
 #' target <- infection@listData$infection
-#' exprs <- assay(scDengue, 'logcounts')
+#' exprs <- scDengue@assays$data$logcounts
 #' # Discretize gene expression
 #' \dontrun{discrete_expression <- as.data.frame(discretize_exprs(exprs))}
 #' \dontrun{fcbf_features <- fcbf(discrete_expression,
 #'                               target,
 #'                               thresh = 0.05,
 #'                               verbose = TRUE)}
-
+"scDengue"

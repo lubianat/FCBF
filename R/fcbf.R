@@ -1,3 +1,4 @@
+
 # Adapted by Tiago Lubiana (tiago.lubiana.alves@usp.br)
 # From Rajarshi Guha <rajarshi@presidency.com>'s implementation of FCBF
 # Implementation of the Fast Correlation Based Filter
@@ -40,13 +41,14 @@ source('R/entropy.R')
 #' @param samples_in_rows A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
 #' Note: this might drastically change the number of selected features.
 #' @param verbose Adds verbosity. Defaults to FALSE.
+
 #' @return Returns a data frame with the selected features index (first row) and their symmetrical uncertainty values regarding the class (second row). Variable names are present in rownames
 #' @examples
 #' data(scDengue)
-#' exprs <- assay(scDengue, 'logcounts')
+#' exprs <- scDengue@assays$data$logcounts
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' head(discrete_expression[,1:4])
-#' infection <- colData(scDengue, internal=TRUE)
+#' infection <- scDengue@colData
 #' target <- infection@listData$infection
 #' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
 

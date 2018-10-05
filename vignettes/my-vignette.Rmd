@@ -47,16 +47,14 @@ The first step to use FCBF is to install FCBF and load the sample data.
 Expression data from single macrophages is used as an example of how to apply
 the method to expression data.
 
-```{r}
-knitr::opts_chunk$set(eval = F)
+```{r, eval = FALSE}
 BiocManager::install("FCBF")
 ```
 ```{r}
-knitr::opts_chunk$set(eval = T)
 library("FCBF")
 # load expression data
 data(scDengue)
-exprs <- assay(scDengue, 'logcounts')
+exprs <- scDengue@assays$data$logcounts
 head(exprs[,1:4])
 ```
 
@@ -88,7 +86,7 @@ The filter approaches as FCBF do not target a specific machine learning model. H
 ```{r}
 
 #load annotation data
-infection <- colData(scDengue, internal=TRUE)
+infection <- scDengue@colData
 
 
 # get the class variable

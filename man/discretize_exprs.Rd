@@ -2,7 +2,8 @@
 % Please edit documentation in R/discretize_exprs.R
 \name{discretize_exprs}
 \alias{discretize_exprs}
-\title{Simple discretizing of gene expression}
+\title{discretize_exprs
+Simple discretizing of gene expression}
 \usage{
 discretize_exprs(expression_table, number_of_bins = 3)
 }
@@ -28,7 +29,7 @@ It transposes the original expression table.
 }
 \examples{
 data(scDengue)
-exprs <- as.data.frame(assay(scDengue, 'logcounts'))
+exprs <- scDengue@assays$data$logcounts
 discrete_expression <- as.data.frame(discretize_exprs(exprs))
 head(discrete_expression[,1:4])
 }

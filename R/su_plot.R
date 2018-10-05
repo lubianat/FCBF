@@ -1,5 +1,6 @@
-
-
+#' @import ggplot2
+#' @importFrom gridExtra grid.arrange
+NULL
 #'  Symmetrical Uncertainty diagnostic
 #'
 #' This functions runs symmetrical uncertainty for a feature table and a class, returning
@@ -9,17 +10,16 @@
 #' observations must be in the same order as the parameter x.
 #' @return Plots an histogram of symmetrical uncertainty values regarding the class.
 #' @export
-#' @import ggplot2
-#' @importFrom gridExtra grid.arrange
 #' @examples
 #' data(scDengue)
-#' exprs <- assay(scDengue, 'logcounts')
+#' exprs <- scDengue@assays$data$logcounts
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
+#' infection <- scDengue@colData
+#' target <- infection@listData$infection
 #' su_plot(discrete_expression,target)
 
 
 su_plot <- function(x, y) {
-  requireNamespace()
   x <- t(x)
   x <- data.frame(x)
   su_ic <- apply(x, 2, function(xx, yy) {

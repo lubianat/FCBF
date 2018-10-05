@@ -1,3 +1,4 @@
+#' discretize_exprs
 #' Simple discretizing of gene expression
 #'
 #' This function takes the range of values for each gene in a
@@ -17,7 +18,7 @@
 #' @return A data frame with the discretized features in the same order as previously
 #' @examples
 #' data(scDengue)
-#' exprs <- as.data.frame(assay(scDengue, 'logcounts'))
+#' exprs <- scDengue@assays$data$logcounts
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' head(discrete_expression[,1:4])
 

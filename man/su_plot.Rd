@@ -21,7 +21,9 @@ an histogram of the scores
 }
 \examples{
 data(scDengue)
-exprs <- assay(scDengue, 'logcounts')
+exprs <- scDengue@assays$data$logcounts
 discrete_expression <- as.data.frame(discretize_exprs(exprs))
+infection <- scDengue@colData
+target <- infection@listData$infection
 su_plot(discrete_expression,target)
 }

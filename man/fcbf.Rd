@@ -36,10 +36,10 @@ Obs: For gene expression, you will need to run discretize_exprs first
 }
 \examples{
 data(scDengue)
-exprs <- assay(scDengue, 'logcounts')
+exprs <- scDengue@assays$data$logcounts
 discrete_expression <- as.data.frame(discretize_exprs(exprs))
 head(discrete_expression[,1:4])
-infection <- colData(scDengue, internal=TRUE)
+infection <- scDengue@colData
 target <- infection@listData$infection
 fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
 }
