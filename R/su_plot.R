@@ -12,17 +12,16 @@
 #' @import ggplot2
 #' @importFrom gridExtra grid.arrange
 #' @examples
-#' data(single_cell_dengue_exprs)
-#' discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
-#' head(discrete_expression[,1:4])
-#' data("single_cell_dengue_annot")
-#' target <- single_cell_dengue_annot
+#' data(scDengue)
+#' exprs <- assay(scDengue, 'logcounts')
+#' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' su_plot(discrete_expression,target)
 
 
 su_plot <- function(x, y) {
   require(ggplot2)
   require(gridExtra)
+  x <- t(x)
   x <- data.frame(x)
   su_ic <- apply(x, 2, function(xx, yy) {
     SU(xx, yy)

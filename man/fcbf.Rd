@@ -4,7 +4,7 @@
 \alias{fcbf}
 \title{Fast Correlation Based Filter function.}
 \usage{
-fcbf(x, y, thresh = 0.25, verbose = FALSE)
+fcbf(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE)
 }
 \arguments{
 \item{x}{A table of features (samples in rows, variables in columns, and each observation in each cell)}
@@ -13,10 +13,12 @@ fcbf(x, y, thresh = 0.25, verbose = FALSE)
 observations must be in the same order as the parameter x}
 
 \item{thresh}{A threshold for the minimum correlation (as determined by symettrical uncertainty)
-between each variable and the class. Defaults to 0.25.
-Note: this might drastically change the number of selected features.}
+between each variable and the class. Defaults to 0.25.}
 
 \item{verbose}{Adds verbosity. Defaults to FALSE.}
+
+\item{samples_in_rows}{A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
+Note: this might drastically change the number of selected features.}
 }
 \value{
 Returns a data frame with the selected features index (first row) and their symmetrical uncertainty values regarding the class (second row). Variable names are present in rownames
@@ -33,10 +35,11 @@ Proc. 20th Intl. Conf. Mach. Learn. (ICML-2003), Washington DC, 2003
 Obs: For gene expression, you will need to run discretize_exprs first
 }
 \examples{
-data(single_cell_dengue_exprs)
-discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
+data(scDengue)
+exprs <- assay(scDengue, 'logcounts')
+discrete_expression <- as.data.frame(discretize_exprs(exprs))
 head(discrete_expression[,1:4])
-data("single_cell_dengue_annot")
-target <- single_cell_dengue_annot
-fcbf(discrete_expression,target, thresh = 0.05)
+infection <- colData(scDengue, internal=TRUE)
+target <- listinfection@listData$infection
+fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
 }

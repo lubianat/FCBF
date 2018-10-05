@@ -7,23 +7,25 @@
 #' attributed the class 'low' and the next bins are assigned to "high".
 #' It transposes the original expression table.
 #'
-#' @param expression_table  A previously normalized expression table (genes/variables in rows,
-#' samples/observations in columns)
+#' @param expression_table  A previously normalized expression table
 #' Note: this might drastically change the number of selected features.
 #' @param number_of_bins Number of equal-width bins for discretization.
 #' Note: it is a binary discretization, with the
 #' first bin becoming one class ('low') and the other bins, another class ('high').
 #' Defaults to 3.
 #' @export
-#' @return A data frame with the discretized features (observations in rows, variables in columns).
-#' Notice: it is transposed regarding the data frame inserted as input.
+#' @return A data frame with the discretized features in the same order as previously
 #' @examples
-#' data(single_cell_dengue_exprs)
-#' discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
+#' data(scDengue)
+#' exprs <- as.data.frame(assay(scDengue, 'logcounts'))
+#' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' head(discrete_expression[,1:4])
 
 discretize_exprs <- function(expression_table, number_of_bins = 3) {
-  apply(expression_table, 1, split_vector_in_two, n_of_bins = number_of_bins)
+
+  discrete_expression<- apply(expression_table, 2, split_vector_in_two, n_of_bins = number_of_bins)
+  rownames(discrete_expression) <- rownames(expression_table)
+  return(discrete_expression)
 }
 
 
@@ -41,5 +43,4 @@ split_vector_in_two <-
 # exprs <- data.frame(fread('../RawCounts_Infection.txt'))
 # exprs <- column_to_rownames(exprs, 'Probes')
 # exprs <- exprs[1:100, ]
-#
 # discretize_exprs(exprs)

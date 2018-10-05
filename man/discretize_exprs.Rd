@@ -7,8 +7,7 @@
 discretize_exprs(expression_table, number_of_bins = 3)
 }
 \arguments{
-\item{expression_table}{A previously normalized expression table (genes/variables in rows,
-samples/observations in columns)
+\item{expression_table}{A previously normalized expression table
 Note: this might drastically change the number of selected features.}
 
 \item{number_of_bins}{Number of equal-width bins for discretization.
@@ -17,8 +16,7 @@ first bin becoming one class ('low') and the other bins, another class ('high').
 Defaults to 3.}
 }
 \value{
-A data frame with the discretized features (observations in rows, variables in columns).
-Notice: it is transposed regarding the data frame inserted as input.
+A data frame with the discretized features in the same order as previously
 }
 \description{
 This function takes the range of values for each gene in a
@@ -29,7 +27,8 @@ attributed the class 'low' and the next bins are assigned to "high".
 It transposes the original expression table.
 }
 \examples{
-data(single_cell_dengue_exprs)
-discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
+data(scDengue)
+exprs <- as.data.frame(assay(scDengue, 'logcounts'))
+discrete_expression <- as.data.frame(discretize_exprs(exprs))
 head(discrete_expression[,1:4])
 }

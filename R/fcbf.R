@@ -37,18 +37,24 @@ source('R/entropy.R')
 #' observations must be in the same order as the parameter x
 #' @param thresh A threshold for the minimum correlation (as determined by symettrical uncertainty)
 #' between each variable and the class. Defaults to 0.25.
+#' @param samples_in_rows A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
 #' Note: this might drastically change the number of selected features.
 #' @param verbose Adds verbosity. Defaults to FALSE.
 #' @return Returns a data frame with the selected features index (first row) and their symmetrical uncertainty values regarding the class (second row). Variable names are present in rownames
 #' @examples
-#' data(single_cell_dengue_exprs)
-#' discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
+#' data(scDengue)
+#' exprs <- assay(scDengue, 'logcounts')
+#' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' head(discrete_expression[,1:4])
-#' data("single_cell_dengue_annot")
-#' target <- single_cell_dengue_annot
-#' fcbf(discrete_expression,target, thresh = 0.05)
+#' infection <- colData(scDengue, internal=TRUE)
+#' target <- listinfection@listData$infection
+#' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+
 #' @export
-fcbf <- function(x, y, thresh = 0.25, verbose = FALSE) {
+fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE) {
+  if (!samples_in_rows){
+  x <- t(x)
+  }
   x <- data.frame(x)
   nvar <- ncol(x)
   if (verbose) {
