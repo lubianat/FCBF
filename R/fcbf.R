@@ -47,7 +47,7 @@ source('R/entropy.R')
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' head(discrete_expression[,1:4])
 #' infection <- colData(scDengue, internal=TRUE)
-#' target <- listinfection@listData$infection
+#' target <- infection@listData$infection
 #' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
 
 #' @export

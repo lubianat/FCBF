@@ -48,11 +48,16 @@ Expression data from single macrophages is used as an example of how to apply
 the method to expression data.
 
 ```{r}
+knitr::opts_chunk$set(eval = F)
 BiocManager::install("FCBF")
+```
+```{r}
+knitr::opts_chunk$set(eval = T)
 library("FCBF")
 # load expression data
-data(single_cell_dengue_exprs)
-head(single_cell_dengue_exprs[,1:4])
+data(scDengue)
+exprs <- assay(scDengue, 'logcounts')
+head(exprs[,1:4])
 ```
 
 This normalized single cell expression can be used in machine learning (ML) models to obtain classifiers for
@@ -65,12 +70,11 @@ In this way, all the zeros and low expression values are assigned the label "low
 
 Notably, this step is only done for variable selection. When you fit machine learning models with those variables, you can still use the original, continuous, numeric, features. 
 
-Oh, the \code{discretize_exprs} function also transposes the data frame to organize the genes in the columns and samples in the rows, as this is the input for \code{fcbf}
 
 ```{r}
 
 # discretize expression data
-discrete_expression <- as.data.frame(discretize_exprs(single_cell_dengue_exprs))
+discrete_expression <- as.data.frame(discretize_exprs(exprs))
 
 head(discrete_expression[,1:4])
 
@@ -84,12 +88,12 @@ The filter approaches as FCBF do not target a specific machine learning model. H
 ```{r}
 
 #load annotation data
-data("single_cell_dengue_annot")
-head(single_cell_dengue_annot)
+infection <- colData(scDengue, internal=TRUE)
+
 
 # get the class variable
 #(note, the order of the samples is the same as in the exprs file)
-target <- single_cell_dengue_annot
+target <- infection@listData$infection
 ```
 
 Having a class variable and a discrete, categorical feature table, we can run  the function fcbf. The code as follows would run for a minute or two and generate an error. 
@@ -121,10 +125,10 @@ In the end, this process has selected a very low number of variables in comparis
 Now we should see if they are really useful for classification. First, we will get a 'mini feature table', just with the selected variables and a table for comparison, with the 100 most variable genes
 
 ```{r}
-mini_single_cell_dengue_exprs <- single_cell_dengue_exprs[fcbf_features$index,]
+mini_single_cell_dengue_exprs <- exprs[fcbf_features$index,]
 
-vars <- sort(apply(single_cell_dengue_exprs, 1, var, na.rm = TRUE), decreasing = TRUE)
-data_top_100_vars <- single_cell_dengue_exprs[names(vars)[1:100], ]
+vars <- sort(apply(exprs, 1, var, na.rm = TRUE), decreasing = TRUE)
+data_top_100_vars <- exprs[names(vars)[1:100], ]
 
 ```
 
@@ -164,7 +168,6 @@ svm_top_100_var <-
         method = "svmRadial",
         trControl = control)
 
-
 svm_fcbf_results <- svm_fcbf$results[svm_fcbf$results$ROC == max(svm_fcbf$results$ROC),]
 svm_top_100_var_results <- svm_top_100_var$results[svm_top_100_var$results$ROC == max(svm_top_100_var$results$ROC),]
 
@@ -177,12 +180,22 @@ cat(paste0("For top 100 var: \n",
              "Sensitivity  = ", svm_fcbf_results$Sens, "\n",
              "Specificity  = ", svm_fcbf_results$Spec))
 
+cat(paste0("For top 100 var: \n",
+  "ROC = ",  svm_top_100_var_results$ROC, "\n",
+             "Sensitivity  = ", svm_top_100_var_results$Sens, "\n",
+             "Specificity  = ", svm_top_100_var_results$Spec, "\n\n",
+  "For FCBF: \n",
+  "ROC = ",  svm_fcbf_results$ROC, "\n",
+             "Sensitivity  = ", svm_fcbf_results$Sens, "\n",
+             "Specificity  = ", svm_fcbf_results$Spec))
 
 
 ```
 
 
-As we can see, the selected variables gave rise to a better SVM model than selecting the top 100 variables. 
+As we can see, the selected variables gave rise to a better SVM model than selecting the top 100 variables (as measured by the area under the curve of the receiver-operating characteristic curve. Notably, running the svm radial with the  full exprs set gives an error of the sort : Error: protect(): "protection stack overflow". 
+
+The multiplicity of infection (MOI) of the cells was relatively low (1 virus/cell), so it is expected that some cells were not infected. Thus, due to this overlap o f healthy cells in both groups, the groups are probably non-separable. In any case, FCBF seems to do a reasonably good job at selecting variables. 
 
 ## Final remarks
 

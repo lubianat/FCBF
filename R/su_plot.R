@@ -19,8 +19,7 @@
 
 
 su_plot <- function(x, y) {
-  require(ggplot2)
-  require(gridExtra)
+  requireNamespace()
   x <- t(x)
   x <- data.frame(x)
   su_ic <- apply(x, 2, function(xx, yy) {
