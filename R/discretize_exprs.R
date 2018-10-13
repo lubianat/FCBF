@@ -26,8 +26,9 @@ NULL
 
 
 discretize_exprs <- function(expression_table, number_of_bins = 3) {
-
+  expression_table <- exprs
   discrete_expression<- apply(expression_table, 1, split_vector_in_two, n_of_bins = number_of_bins)
+  discrete_expression <- as.data.frame(t(discrete_expression))
   rownames(discrete_expression) <- rownames(expression_table)
   return(discrete_expression)
 }
