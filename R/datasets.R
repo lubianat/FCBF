@@ -19,15 +19,15 @@
 #' Elife, 7, e32942.
 #' \href{https://www.ncbi.nlm.nih.gov/pubmed/29451494}{PubMed}
 #' @source \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE110496}{GEO}
-@examples
-data(scDengue)
-infection <- scDengue@colData
-target <- infection@listData$infection
-exprs <- scDengue@assays$data$logcounts
-# Discretize gene expression
-discrete_expression <- as.data.frame(discretize_exprs(exprs))
-fcbf_features <- fcbf(discrete_expression,
-                              target,
-                              thresh = 0.05,
-                              verbose = TRUE)
+#' @examples
+#' data(scDengue)
+#' infection <- scDengue@colData
+#' target <- infection@listData$infection
+#' exprs <- scDengue@assays$data$logcounts
+#' # Discretize gene expression
+#' discrete_expression <- as.data.frame(discretize_exprs(exprs))
+#' fcbf_features <- fcbf(discrete_expression,
+#'                               target,
+#'                               thresh = 0.05,
+#'                               verbose = TRUE)
 "scDengue"
