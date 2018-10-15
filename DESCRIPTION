@@ -11,7 +11,7 @@ Description: This package provides a simple R implementation for the Fast Correl
     The functions are implemented based on the algorithm of Yu and Liu, 2003 and Rajarshi Guha's implementation from 13/05/2005 available (as of 26/08/2018) at http://www.rguha.net/code/R/fcbf.R . 
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: True
+LazyData: False
 RoxygenNote: 6.1.0.9000
 Imports: ggplot2, gridExtra, SummarizedExperiment
 Suggests: caret, mlbench, SingleCellExperiment, 

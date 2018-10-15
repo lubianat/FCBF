@@ -51,7 +51,7 @@ source('R/entropy.R')
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' head(discrete_expression[,1:4])
 #' infection <- SummarizedExperiment::colData(scDengue)
-#' target <- infection@listData$infection
+#' target <- infection$infection
 #' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
 
 fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE) {

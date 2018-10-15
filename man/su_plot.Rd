@@ -24,6 +24,6 @@ data(scDengue)
 exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
 discrete_expression <- as.data.frame(discretize_exprs(exprs))
 infection <- SummarizedExperiment::colData(scDengue)
-target <- infection@listData$infection
+target <- infection$infection
 su_plot(discrete_expression,target)
 }

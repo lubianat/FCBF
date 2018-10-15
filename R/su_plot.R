@@ -2,6 +2,7 @@
 #' @importFrom gridExtra grid.arrange
 #' @importMethodsFrom SummarizedExperiment assay
 NULL
+
 #'  Symmetrical Uncertainty diagnostic
 #'
 #' This functions runs symmetrical uncertainty for a feature table and a class, returning
@@ -16,7 +17,7 @@ NULL
 #' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' infection <- SummarizedExperiment::colData(scDengue)
-#' target <- infection@listData$infection
+#' target <- infection$infection
 #' su_plot(discrete_expression,target)
 
 

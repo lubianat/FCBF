@@ -23,15 +23,16 @@ Gene expression has to be discretized for use in FCBF.
 }
 \examples{
 data(scDengue)
-infection <- scDengue@colData
-target <- infection@listData$infection
-exprs <- scDengue@assays$data$logcounts
+data(scDengue)
+exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+infection <- SummarizedExperiment::colData(scDengue)
+target <- infection$infection
 # Discretize gene expression
-\dontrun{discrete_expression <- as.data.frame(discretize_exprs(exprs))}
-\dontrun{fcbf_features <- fcbf(discrete_expression,
+discrete_expression <- as.data.frame(discretize_exprs(exprs))
+fcbf_features <- fcbf(discrete_expression,
                               target,
                               thresh = 0.05,
-                              verbose = TRUE)}
+                              verbose = TRUE)
 }
 \references{
 Zanini, F., Pu, S. Y., Bekerman, E., Einav, S., & Quake, S. R.

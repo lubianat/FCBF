@@ -1,5 +1,6 @@
 #' @importMethodsFrom SummarizedExperiment assay
 NULL
+
 #' discretize_exprs
 #' Simple discretizing of gene expression
 #'
@@ -26,7 +27,6 @@ NULL
 
 
 discretize_exprs <- function(expression_table, number_of_bins = 3) {
-  expression_table <- exprs
   discrete_expression<- apply(expression_table, 1, split_vector_in_two, n_of_bins = number_of_bins)
   discrete_expression <- as.data.frame(t(discrete_expression))
   rownames(discrete_expression) <- rownames(expression_table)
@@ -44,8 +44,3 @@ split_vector_in_two <-
     break_size = (max_expression - min_expression) / n_of_bins
     return(ifelse(gene_expression_across_samples < (min_expression+break_size),  'low', 'high'))
   }
-
-# exprs <- data.frame(fread('../RawCounts_Infection.txt'))
-# exprs <- column_to_rownames(exprs, 'Probes')
-# exprs <- exprs[1:100, ]
-# discretize_exprs(exprs)

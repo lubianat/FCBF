@@ -1,3 +1,6 @@
+#' @importMethodsFrom SummarizedExperiment assay colData
+NULL
+
 #' Dengue infected macrophages; gene expression data from GEO study GSE110496
 #'
 #' Expression data from single cells, from  adengue virus infection study by
@@ -21,9 +24,10 @@
 #' @source \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE110496}{GEO}
 #' @examples
 #' data(scDengue)
-#' infection <- scDengue@colData
-#' target <- infection@listData$infection
-#' exprs <- scDengue@assays$data$logcounts
+#' data(scDengue)
+#' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#' infection <- SummarizedExperiment::colData(scDengue)
+#' target <- infection$infection
 #' # Discretize gene expression
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' fcbf_features <- fcbf(discrete_expression,
