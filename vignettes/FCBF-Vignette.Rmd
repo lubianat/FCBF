@@ -179,16 +179,6 @@ cat(paste0("For top 100 var: \n",
              "Sensitivity  = ", svm_fcbf_results$Sens, "\n",
              "Specificity  = ", svm_fcbf_results$Spec))
 
-cat(paste0("For top 100 var: \n",
-  "ROC = ",  svm_top_100_var_results$ROC, "\n",
-             "Sensitivity  = ", svm_top_100_var_results$Sens, "\n",
-             "Specificity  = ", svm_top_100_var_results$Spec, "\n\n",
-  "For FCBF: \n",
-  "ROC = ",  svm_fcbf_results$ROC, "\n",
-             "Sensitivity  = ", svm_fcbf_results$Sens, "\n",
-             "Specificity  = ", svm_fcbf_results$Spec))
-
-
 ```
 
 

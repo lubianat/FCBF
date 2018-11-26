@@ -24,7 +24,6 @@ NULL
 #' @source \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE110496}{GEO}
 #' @examples
 #' data(scDengue)
-#' data(scDengue)
 #' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
 #' infection <- SummarizedExperiment::colData(scDengue)
 #' target <- infection$infection

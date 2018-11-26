@@ -23,7 +23,6 @@ Gene expression has to be discretized for use in FCBF.
 }
 \examples{
 data(scDengue)
-data(scDengue)
 exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
 infection <- SummarizedExperiment::colData(scDengue)
 target <- infection$infection
