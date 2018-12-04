@@ -1,7 +1,7 @@
 #'  Symmetrical Uncertainty diagnostic
 #'
 #' This functions runs symmetrical uncertainty for a feature table and a class, returning
-#' the scores of symmetrical uncertatinty for all features
+#' the scores of symmetrical uncertainty for all features
 #' @param x A table of features (observations in rows, variables in columns)
 #' @param y A target vector, factor containing classes of the observations. Note: the
 #' observations must be in the same order as the parameter x.

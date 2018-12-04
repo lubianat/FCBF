@@ -73,4 +73,24 @@ SU <- function(x, y, base = exp(1)) {
   # Returns the symmetrical uncertainty value for the vector pair
   2 * (Hy + Hx - Ht) / (Hx + Hy)
 
+}
+
+
+# Formula for Information Gain
+IG <- function(x, y, base = exp(1)) {
+  if (is.character(x)) {
+    x <- as.factor(x)
   }
+  if (!is.factor(x) || !is.factor(y)) {
+    stop(
+      "For calculating the information gain, the vectors x & y must be factors.
+      Using a continuous(numeric) feature set leads to this error."
+    )
+  }
+    Ht <- entropy.joint(x, y, base)
+    Hx <- entropy(x, base)
+    Hy <- entropy(y, base)
+    # Returns the information gain for the pair
+    IG <- (Hy + Hx - Ht)
+    IG
+}
