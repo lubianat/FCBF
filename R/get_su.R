@@ -15,7 +15,7 @@
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' infection <- SummarizedExperiment::colData(scDengue)
 #' target <- infection$infection
-#' su_values <- get_su(discrete_expression,target)
+#' su_values <- get_su(discrete_expression[,],target[])
 #' su_values[1:10,]
 
 
@@ -26,5 +26,5 @@ get_su <- function(x, y) {
   su_ic <- apply(x, 2, function(xx, yy) {
     SU(xx, yy)
   }, y)
-  as.data.frame(su_ic)
+  as.data.frame(sort(su_ic,decreasing = T))
 }
