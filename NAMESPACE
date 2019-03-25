@@ -2,8 +2,8 @@
 
 export(discretize_exprs)
 export(fcbf)
+export(get_ig)
 export(get_su)
-export(ig_values)
 export(su_plot)
 import(ggplot2)
 importFrom(gridExtra,grid.arrange)
