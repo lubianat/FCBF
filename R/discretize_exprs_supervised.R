@@ -9,6 +9,7 @@ NULL
 #' @param target A series of labels matching each of the values in the gene vector
 #' (genes in rows, cells/samples in columns)
 #' @param parallel Set calculations in parallel. May be worth it if the number of rows and columns is really large. Do watchout for memory overload.
+#' @export
 #' @return A data frame with the discretized features in the same order as previously
 #' @examples
 #' data(scDengue)

@@ -11,6 +11,7 @@ NULL
 #' @param kmeans_centers Numeric vector with the number of centers to use for kmeans. Defaults to 2, 3 and 4
 #' @param sd_alpha Parameter for adusting the 'medium' level of the mean +- sd discretization. Defaults to sd_alpha = c(0.75, 1, 1.25))
 #' @return A data frame with the discretized features in the same order as previously
+#' @export
 #' @examples
 #' data(scDengue)
 #' exprs <- as.data.frame(SummarizedExperiment::assay(scDengue, 'logcounts'))
