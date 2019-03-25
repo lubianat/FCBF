@@ -21,3 +21,11 @@ A data frame with the discretized features in the same order as previously
 Uses several discretizations and selects the one that is best for a given variable (gene)
 in comparison to a target class by equivocation
 }
+\examples{
+data(scDengue)
+exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+infection <- SummarizedExperiment::colData(scDengue)
+target <- infection$infection
+discrete_expression <- as.data.frame(discretize_exprs_supervised(exprs,target))
+fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+}

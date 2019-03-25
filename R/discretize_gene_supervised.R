@@ -7,20 +7,20 @@ NULL
 #'
 #' @param gene  A previously normalized gene expression vector
 #' @param target A series of labels matching each of the values in the gene vector
-#' @vw_params cuttof parameters for the varying width function. Defaults to 0.25, 0.5 and 0.75
+#' @param vw_params cuttof parameters for the varying width function. Defaults to 0.25, 0.5 and 0.75
+#' @param kmeans_centers Numeric vector with the number of centers to use for kmeans. Defaults to 2, 3 and 4
+#' @param sd_alpha Parameter for adusting the 'medium' level of the mean +- sd discretization. Defaults to sd_alpha = c(0.75, 1, 1.25))
 #' @return A data frame with the discretized features in the same order as previously
 #' @examples
-# data(scDengue)
-# exprs <- as.data.frame(SummarizedExperiment::assay(scDengue, 'logcounts'))
-# gene <- exprs['ENSG00000166825',]
-# infection <- SummarizedExperiment::colData(scDengue)
-# target <- infection$infection
-# discrete_expression <- as.data.frame(discretize_gene_supervised(gene, target))
-# table(discrete_expression)
+#' data(scDengue)
+#' exprs <- as.data.frame(SummarizedExperiment::assay(scDengue, 'logcounts'))
+#' gene <- exprs['ENSG00000166825',]
+#' infection <- SummarizedExperiment::colData(scDengue)
+#' target <- infection$infection
+#' discrete_expression <- as.data.frame(discretize_gene_supervised(gene, target))
+#' table(discrete_expression)
 
 source('R/entropy.R')
-
-rm(list = grep('split', names(.GlobalEnv), value = TRUE))
 
 split_vector_in_two_by_mean <-
   function(gene_expression_across_samples) {

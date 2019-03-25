@@ -11,12 +11,12 @@ NULL
 #' @param parallel Set calculations in parallel. May be worth it if the number of rows and columns is really large. Do watchout for memory overload.
 #' @return A data frame with the discretized features in the same order as previously
 #' @examples
-# data(scDengue)
-# exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
-# infection <- SummarizedExperiment::colData(scDengue)
-# target <- infection$infection
-# discrete_expression <- as.data.frame(discretize_exprs_supervised(exprs,target))
-# fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+#' data(scDengue)
+#' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#' infection <- SummarizedExperiment::colData(scDengue)
+#' target <- infection$infection
+#' discrete_expression <- as.data.frame(discretize_exprs_supervised(exprs,target))
+#' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
 
 discretize_exprs_supervised <- function(expression_table, target, parallel = FALSE) {
   if (parallel){
