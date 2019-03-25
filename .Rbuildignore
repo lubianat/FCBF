@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.git/objects/3c/dbaa232d7befc9037f24b6758da12a239e9136$
+.git/objects/3c/dbaa232d7befc9037f24b6758da12a239e9136
+.git
+.travis.yml
+.git/*
+^\.git/*$
+^\.git$

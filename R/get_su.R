@@ -1,30 +1,96 @@
-#'  Symmetrical Uncertainty diagnostic
-#'
-#' This functions runs symmetrical uncertainty for a feature table and a class, returning
-#' the scores of symmetrical uncertainty for all features
-#' @param x A table of features (observations in rows, variables in columns)
-#' @param y A target vector, factor containing classes of the observations. Note: the
-#' observations must be in the same order as the parameter x.
-#' @return A dataframe containing the SU values for each feature
-#' @export
-#' @examples
-#'
-#' @examples
-#' data(scDengue)
-#' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
-#' discrete_expression <- as.data.frame(discretize_exprs(exprs))
-#' infection <- SummarizedExperiment::colData(scDengue)
-#' target <- infection$infection
-#' su_values <- get_su(discrete_expression[,],target[])
-#' su_values[1:10,]
+# Based on implementation  from Rajarshi Guha <rajarshi@presidency.com>
+# 13/05/2005
+#
+# Modified by Tiago Lubiana (22/08/2018)
+# Functions to calculate forms of entropy for categorical variables ("factors")
+
+# H(X) - entropy
+entropy <- function(x, base = exp(1)) {
+  if (!is.factor(x)) {
+    stop("For calculating the entropy, the vector must be a factor")
+  }
+  x <- factor(x)
+  t <- table(x)
+  probabily_of_t <- t / sum(t)
+  if (any(t == 0)) {
+    probabily_of_t <- probabily_of_t[-which(t == 0)]
+  }
+  ent <- -1 * sum(probabily_of_t * log(probabily_of_t) / log(base))
+  if (is.na(ent)) {
+    ent <- 0
+  }
+  ent
+}
+
+# H(X,Y) - joint entropy
+entropy.joint <- function(x, y, base = exp(1)) {
+  if (!is.factor(x) || !is.factor(y)) {
+    stop("For calculating the joint entropy, the vector x & y must be factors")
+  }
+  x <- factor(x)
+  y <- factor(y)
+  t <- table(x, y)
+  probabily_of_t <- as.numeric(t / sum(t))
+  if (any(probabily_of_t == 0)) {
+    probabily_of_t <- probabily_of_t[-which(probabily_of_t== 0)]
+  }
+  ent <- -1 * sum(probabily_of_t * log(probabily_of_t) / log(base))
+  if (is.na(ent)) {
+    ent <- 0
+  }
+  ent
+}
+
+# H(X|Y) = H(X,Y) - H(Y) - conditional entropy
+entropy.cond <- function(x, y, base = exp(1)) {
+  if (!is.factor(x) || !is.factor(y)) {
+    stop("For calculating the conditional entropy, the vectors x & y must be factors")
+  }
+  ent <- entropy.joint(x, y, base) - entropy(y, base)
+  if (is.na(ent)) {
+    ent <- 0
+  }
+  ent
+}
+
+# Formula for symetrical uncertainty as described in  Yu, L. and Liu, H. , 2003.
+SU <- function(x, y, base = exp(1)) {
+  if (is.character(x)) {
+    x <- as.factor(x)
+  }
+  if (!is.factor(x) || !is.factor(y)) {
+    stop(
+      "For calculating the symmetrical uncertainty, the vectors x & y must be factors.
+      Using a continuous(numeric) feature set leads to this error."
+    )
+  }
+
+  Ht <- entropy.joint(x, y, base)
+  Hx <- entropy(x, base)
+  Hy <- entropy(y, base)
+  #cat(Ht,' ',Hx,' ',Hy,'\n')
+
+  # Returns the symmetrical uncertainty value for the vector pair
+  2 * (Hy + Hx - Ht) / (Hx + Hy)
+
+}
 
 
-
-get_su <- function(x, y) {
-  x <- t(x)
-  x <- data.frame(x)
-  su_ic <- apply(x, 2, function(xx, yy) {
-    SU(xx, yy)
-  }, y)
-  as.data.frame(sort(su_ic,decreasing = T))
+# Formula for Information Gain
+IG <- function(x, y, base = exp(1)) {
+  if (is.character(x)) {
+    x <- as.factor(x)
+  }
+  if (!is.factor(x) || !is.factor(y)) {
+    stop(
+      "For calculating the information gain, the vectors x & y must be factors.
+      Using a continuous(numeric) feature set leads to this error."
+    )
+  }
+    Ht <- entropy.joint(x, y, base)
+    Hx <- entropy(x, base)
+    Hy <- entropy(y, base)
+    # Returns the information gain for the pair
+    IG <- (Hy + Hx - Ht)
+    IG
 }

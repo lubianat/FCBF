@@ -5,6 +5,7 @@
 # Functions to calculate forms of entropy for categorical variables ("factors")
 
 # H(X) - entropy
+
 entropy <- function(x, base = exp(1)) {
   if (!is.factor(x)) {
     stop("For calculating the entropy, the vector must be a factor")
