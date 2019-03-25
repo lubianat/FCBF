@@ -17,8 +17,8 @@ NULL
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' infection <- SummarizedExperiment::colData(scDengue)
 #' target <- infection$infection
-ig_values <- get_ig(discrete_expression[,],target[])
-ig_values[1:10,]
+# ig_values <- get_ig(discrete_expression[,],target[])
+# ig_values[1:10,]
 
 
 
