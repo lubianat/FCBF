@@ -1,3 +1,5 @@
+#' @importMethodsFrom SummarizedExperiment assay colData
+NULL
 #' supervised_disc_df
 #'
 #' Uses several discretizations and selects the one that is best for a given variable (gene)

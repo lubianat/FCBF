@@ -1,3 +1,5 @@
+#' @importMethodsFrom SummarizedExperiment assay colData
+NULL
 #'  Get information gain
 #'
 #' This functions runs information gain for a feature table and a class, returning
