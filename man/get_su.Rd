@@ -20,7 +20,6 @@ This functions runs symmetrical uncertainty for a feature table and a class, ret
 the scores of symmetrical uncertainty for all features
 }
 \examples{
-
 data(scDengue)
 exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
 discrete_expression <- as.data.frame(discretize_exprs(exprs))
