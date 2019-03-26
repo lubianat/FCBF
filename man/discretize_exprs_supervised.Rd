@@ -23,7 +23,8 @@ in comparison to a target class by equivocation
 }
 \examples{
 data(scDengue)
-exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+exprs <- as.data.frame(SummarizedExperiment::assay(scDengue, 'logcounts'))
+exprs <- exprs [1:200, 1:120]
 infection <- SummarizedExperiment::colData(scDengue)
 target <- infection$infection
 discrete_expression <- as.data.frame(discretize_exprs_supervised(exprs,target))

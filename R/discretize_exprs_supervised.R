@@ -13,7 +13,8 @@ NULL
 #' @return A data frame with the discretized features in the same order as previously
 #' @examples
 #' data(scDengue)
-#' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#' exprs <- as.data.frame(SummarizedExperiment::assay(scDengue, 'logcounts'))
+#' exprs <- exprs [1:200, 1:120]
 #' infection <- SummarizedExperiment::colData(scDengue)
 #' target <- infection$infection
 #' discrete_expression <- as.data.frame(discretize_exprs_supervised(exprs,target))
