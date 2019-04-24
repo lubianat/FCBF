@@ -74,15 +74,6 @@ NULL
     ))
   }
 
-# list_of_discs <- grep('split', names(.GlobalEnv), value = TRUE)
-list_of_discs <-
-  c(
-    ".split_vector_in_two_by_median",
-    ".split_vector_in_two_by_mean",
-    ".split_vector_by_kmeans",
-    ".split_vector_in_three_by_mean_sd",
-    ".split_vector_in_two_by_vw")
-
 #' discretize_gene_supervised
 #'
 #' Uses several discretizations and selects the one that is best for a given variable (gene)
@@ -90,8 +81,16 @@ list_of_discs <-
 #'
 #' @param gene  A previously normalized gene expression vector
 #' @param target A series of labels matching each of the values in the gene vector
+#' @param output If it is equal to 'discretized_vector', the output is the vector. I it is 'su', returns a dataframe. Defaults to 'discretized_vector'
 #' @param vw_params cuttof parameters for the varying width function. Defaults to 0.25, 0.5 and 0.75
 #' @param kmeans_centers Numeric vector with the number of centers to use for kmeans. Defaults to 2, 3 and 4
+#' @param list_of_discs Defaults to   c(
+#' ".split_vector_in_two_by_median",
+#' split_vector_in_two_by_mean",
+#' ".split_vector_by_kmeans",
+#' ".split_vector_in_three_by_mean_sd",
+#' ".split_vector_in_two_by_vw")
+
 #' @param sd_alpha Parameter for adusting the 'medium' level of the mean +- sd discretization. Defaults to sd_alpha = c(0.75, 1, 1.25))
 #' @export
 #' @return A data frame with the discretized features in the same order as previously
@@ -103,11 +102,18 @@ list_of_discs <-
 #' target <- infection$infection
 #' discrete_expression <- as.data.frame(discretize_gene_supervised(gene, target))
 #' table(discrete_expression)
+
 discretize_gene_supervised <-
     function(gene,
     target,
     output = 'discretized_vector',
-    discs = list_of_discs,
+    discs =   c(
+      ".split_vector_in_two_by_median",
+      ".split_vector_in_two_by_mean",
+      ".split_vector_by_kmeans",
+      ".split_vector_in_three_by_mean_sd",
+      ".split_vector_in_two_by_vw")
+    ,
     vw_params = c(0.25, 0.5, 0.75),
     kmeans_centers = c(2, 3, 4),
     sd_alpha = c(0.75, 1, 1.25)) {
