@@ -42,22 +42,27 @@ source('R/entropy.R')
 #' @param samples_in_rows A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
 #' Note: this might drastically change the number of selected features.
 #' @param verbose Adds verbosity. Defaults to FALSE.
+#' @param balance_classes Balances number of instances in the target vector y by sampling the number of instances in the
+#' minor class from all others. The number of samplings is controlled by resampling_number. Defaults to FALSE.
 
 #' @return Returns a data frame with the selected features index (first row) and their symmetrical uncertainty values regarding the class (second row). Variable names are present in rownames
 #' @export
 #' @examples
-#' data(scDengue)
-#' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
-#' discrete_expression <- as.data.frame(discretize_exprs(exprs))
-#' head(discrete_expression[,1:4])
-#' infection <- SummarizedExperiment::colData(scDengue)
-#' target <- infection$infection
-#' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+data(scDengue)
+exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+discrete_expression <- as.data.frame(discretize_exprs(exprs))
+head(discrete_expression[,1:4])
+infection <- SummarizedExperiment::colData(scDengue)
+target <- infection$infection
+fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE, balance_classes = TRUE)
 
-fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE) {
+fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE, balance_classes = FALSE) {
+
   if (!samples_in_rows){
   x <- t(x)
   }
+  if(!balance_classes){
   x <- data.frame(x)
   nvar <- ncol(x)
   if (verbose) {
@@ -128,5 +133,21 @@ fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE) 
     data.frame(index = s_prime, SU = suvalues)
   } else {
     data.frame(index = s_prime, SU = SU(x[, s_prime], y))
+  }
+  }
+  else{
+    instances_in_minor_class <- min(table(y))
+    n_x <- as.data.frame(cbind(x,y))
+    final_x <- data.frame(n_x[1,])
+    final_x <- final_x[-1,]
+    for (i in levels(as.factor(n_x[,ncol(n_x)]))){
+    set.seed(33)
+    n_x_i <- n_x[n_x[, ncol(n_x)] == i,]
+    n_x_i <- n_x_i[sample(1:nrow(n_x_i), instances_in_minor_class),]
+    final_x <- rbind(n_x_i, final_x)
+    }
+    final_x$y <- NULL
+    fcbf(t(final_x),y,thresh,verbose,samples_in_rows,balance_classes = FALSE)
+
   }
 }
