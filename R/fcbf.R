@@ -48,14 +48,14 @@ source('R/entropy.R')
 #' @return Returns a data frame with the selected features index (first row) and their symmetrical uncertainty values regarding the class (second row). Variable names are present in rownames
 #' @export
 #' @examples
-data(scDengue)
-exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
-discrete_expression <- as.data.frame(discretize_exprs(exprs))
-head(discrete_expression[,1:4])
-infection <- SummarizedExperiment::colData(scDengue)
-target <- infection$infection
-fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
-fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE, balance_classes = TRUE)
+#' data(scDengue)
+#' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#' discrete_expression <- as.data.frame(discretize_exprs(exprs))
+#' head(discrete_expression[,1:4])
+#' infection <- SummarizedExperiment::colData(scDengue)
+#' target <- infection$infection
+#' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+#' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE, balance_classes = TRUE)
 
 fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE, balance_classes = FALSE) {
 
@@ -141,9 +141,8 @@ fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE, 
     final_x <- data.frame(n_x[1,])
     final_x <- final_x[-1,]
     for (i in levels(as.factor(n_x[,ncol(n_x)]))){
-    set.seed(33)
     n_x_i <- n_x[n_x[, ncol(n_x)] == i,]
-    n_x_i <- n_x_i[sample(1:nrow(n_x_i), instances_in_minor_class),]
+    n_x_i <- n_x_i[sample(seq_len(length.out = nrow(n_x_i)), instances_in_minor_class),]
     final_x <- rbind(n_x_i, final_x)
     }
     final_x$y <- NULL
