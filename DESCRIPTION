@@ -1,7 +1,7 @@
 Package: FCBF
 Type: Package
 Title: Fast Correlation Based Filter for Feature Selection
-Version: 1.0.3
+Version: 1.2.1
 Authors@R: c(person("Tiago", "Lubiana", email = "tiago.lubiana.alves@usp.br",
   role = c("aut", "cre")), person("Helder", "Nakaya", email = "hnkaya@usp.br",
   role = c("aut","ths")))
