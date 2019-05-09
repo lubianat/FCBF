@@ -20,17 +20,24 @@ NULL
 #' discrete_expression <- as.data.frame(discretize_exprs_supervised(exprs,target))
 #' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
 
-discretize_exprs_supervised <- function(expression_table, target, parallel = FALSE) {
-  if (parallel){
-    ncores <- parallel::detectCores() - 2
-    cl <- parallel::makeCluster(ncores)
-    discrete_expression<- parallel::parApply(cl, expression_table, 1, discretize_gene_supervised, target)
-    parallel::stopCluster(cl)
+discretize_exprs_supervised <-
+  function(expression_table, target, parallel = FALSE) {
+    if (parallel) {
+      ncores <- parallel::detectCores() - 2
+      cl <- parallel::makeCluster(ncores)
+      discrete_expression <-
+        parallel::parApply(cl,
+                           expression_table,
+                           1,
+                           discretize_gene_supervised,
+                           target)
+      parallel::stopCluster(cl)
+    }
+    else{
+      discrete_expression <-
+        apply(expression_table, 1, discretize_gene_supervised, target)
+    }
+    discrete_expression <- as.data.frame(t(discrete_expression))
+    rownames(discrete_expression) <- rownames(expression_table)
+    return(discrete_expression)
   }
-  else{
-    discrete_expression<- apply(expression_table, 1, discretize_gene_supervised, target)
-  }
-  discrete_expression <- as.data.frame(t(discrete_expression))
-  rownames(discrete_expression) <- rownames(expression_table)
-  return(discrete_expression)
-}

@@ -1,7 +1,7 @@
 Package: FCBF
 Type: Package
 Title: Fast Correlation Based Filter for Feature Selection
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: c(person("Tiago", "Lubiana", email = "tiago.lubiana.alves@usp.br",
   role = c("aut", "cre")), person("Helder", "Nakaya", email = "hnkaya@usp.br",
   role = c("aut","ths")))
@@ -13,12 +13,12 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: False
 RoxygenNote: 6.1.0.9000
-Imports: ggplot2, gridExtra, SummarizedExperiment
+Imports: ggplot2, gridExtra, SummarizedExperiment, stats
 Suggests: caret, mlbench, SingleCellExperiment, 
     knitr,
     rmarkdown,
     testthat,
     BiocManager
-biocViews: ImmunoOncology, GeneTarget, FeatureExtraction, Classification, GeneExpression, SingleCell
+biocViews: GeneTarget, FeatureExtraction, Classification, GeneExpression, SingleCell, ImmunoOncology
 VignetteBuilder: knitr
 Depends: R (>= 3.5.0)

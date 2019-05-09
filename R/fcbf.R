@@ -141,9 +141,8 @@ fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE, 
     final_x <- data.frame(n_x[1,])
     final_x <- final_x[-1,]
     for (i in levels(as.factor(n_x[,ncol(n_x)]))){
-    set.seed(33)
     n_x_i <- n_x[n_x[, ncol(n_x)] == i,]
-    n_x_i <- n_x_i[sample(1:nrow(n_x_i), instances_in_minor_class),]
+    n_x_i <- n_x_i[sample(seq_len(length.out = nrow(n_x_i)), instances_in_minor_class),]
     final_x <- rbind(n_x_i, final_x)
     }
     final_x$y <- NULL

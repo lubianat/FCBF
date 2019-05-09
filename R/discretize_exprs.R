@@ -5,8 +5,8 @@ NULL
 #' Simple discretizing of gene expression
 #'
 #' This function takes the range of values for each gene in a
-#' previously normalized expression table (genes/variables in rows,
-#' samples/observations in columns) and uses it for a width-based discretization.
+#' previously normalized expression table (genes/variables in rows, samples/
+#' observations in columns) and uses it for a width-based discretization.
 #' Each feature is divide into "n" bins of equal width. The first bin is
 #' attributed the class 'low' and the next bins are assigned to "high".
 #' It transposes the original expression table.
@@ -27,7 +27,8 @@ NULL
 
 
 discretize_exprs <- function(expression_table, number_of_bins = 3) {
-  discrete_expression<- apply(expression_table, 1, split_vector_in_two, n_of_bins = number_of_bins)
+  discrete_expression <-
+    apply(expression_table, 1, split_vector_in_two, n_of_bins = number_of_bins)
   discrete_expression <- as.data.frame(t(discrete_expression))
   rownames(discrete_expression) <- rownames(expression_table)
   return(discrete_expression)
@@ -42,5 +43,9 @@ split_vector_in_two <-
     max_expression = max(gene_expression_across_samples)
     min_expression = min(gene_expression_across_samples)
     break_size = (max_expression - min_expression) / n_of_bins
-    return(ifelse(gene_expression_across_samples < (min_expression+break_size),  'low', 'high'))
+    return(ifelse(
+      gene_expression_across_samples < (min_expression + break_size),
+      'low',
+      'high'
+    ))
   }

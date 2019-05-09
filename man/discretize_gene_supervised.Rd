@@ -18,18 +18,18 @@ discretize_gene_supervised(gene, target, output = "discretized_vector",
 
 \item{output}{If it is equal to 'discretized_vector', the output is the vector. I it is 'su', returns a dataframe. Defaults to 'discretized_vector'}
 
-\item{vw_params}{cuttof parameters for the varying width function. Defaults to 0.25, 0.5 and 0.75}
-
-\item{kmeans_centers}{Numeric vector with the number of centers to use for kmeans. Defaults to 2, 3 and 4}
-
-\item{sd_alpha}{Parameter for adusting the 'medium' level of the mean +- sd discretization. Defaults to sd_alpha = c(0.75, 1, 1.25))}
-
-\item{list_of_discs}{Defaults to   c(
+\item{discs}{Defaults to   c(
 ".split_vector_in_two_by_median",
 split_vector_in_two_by_mean",
 ".split_vector_by_kmeans",
 ".split_vector_in_three_by_mean_sd",
 ".split_vector_in_two_by_vw")}
+
+\item{vw_params}{cuttof parameters for the varying width function. Defaults to 0.25, 0.5 and 0.75}
+
+\item{kmeans_centers}{Numeric vector with the number of centers to use for kmeans. Defaults to 2, 3 and 4}
+
+\item{sd_alpha}{Parameter for adusting the 'medium' level of the mean +- sd discretization. Defaults to sd_alpha = c(0.75, 1, 1.25))}
 }
 \value{
 A data frame with the discretized features in the same order as previously
