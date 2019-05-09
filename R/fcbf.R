@@ -48,14 +48,14 @@ source('R/entropy.R')
 #' @return Returns a data frame with the selected features index (first row) and their symmetrical uncertainty values regarding the class (second row). Variable names are present in rownames
 #' @export
 #' @examples
-data(scDengue)
-exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
-discrete_expression <- as.data.frame(discretize_exprs(exprs))
-head(discrete_expression[,1:4])
-infection <- SummarizedExperiment::colData(scDengue)
-target <- infection$infection
-fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
-fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE, balance_classes = TRUE)
+#' data(scDengue)
+#' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#' discrete_expression <- as.data.frame(discretize_exprs(exprs))
+#' head(discrete_expression[,1:4])
+#' infection <- SummarizedExperiment::colData(scDengue)
+#' target <- infection$infection
+#' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+#' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE, balance_classes = TRUE)
 
 fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE, balance_classes = FALSE) {
 

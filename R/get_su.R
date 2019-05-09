@@ -25,5 +25,5 @@ get_su <- function(x, y) {
   su_ic <- apply(x, 2, function(xx, yy) {
     SU(xx, yy)
   }, y)
-  as.data.frame(sort(su_ic,decreasing = T))
+  as.data.frame(sort(su_ic,decreasing = TRUE))
 }
