@@ -37,6 +37,12 @@ A data frame with the discretized features in the same order as previously
 \description{
 Uses several discretizations and selects the one that is best for a given variable (gene)
 in comparison to a target class by equivocation
+Note that set.seed() should be used for reproducing the results. The inner
+kmeans #' function would, otherwise, provide different results each time.
+}
+\details{
+Note that a seed for random values has to bew set for reproducibility.
+Otherwise, the "kmeans" value might vary from iteration to iteration.
 }
 \examples{
 data(scDengue)
@@ -44,6 +50,7 @@ exprs <- as.data.frame(SummarizedExperiment::assay(scDengue, 'logcounts'))
 gene <- exprs['ENSG00000166825',]
 infection <- SummarizedExperiment::colData(scDengue)
 target <- infection$infection
+set.seed(3)
 discrete_expression <- as.data.frame(discretize_gene_supervised(gene, target))
 table(discrete_expression)
 }

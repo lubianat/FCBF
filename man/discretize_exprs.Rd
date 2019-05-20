@@ -21,8 +21,8 @@ A data frame with the discretized features in the same order as previously
 }
 \description{
 This function takes the range of values for each gene in a
-previously normalized expression table (genes/variables in rows,
-samples/observations in columns) and uses it for a width-based discretization.
+previously normalized expression table (genes/variables in rows, samples/
+observations in columns) and uses it for a width-based discretization.
 Each feature is divide into "n" bins of equal width. The first bin is
 attributed the class 'low' and the next bins are assigned to "high".
 It transposes the original expression table.
