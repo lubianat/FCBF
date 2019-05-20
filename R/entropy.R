@@ -54,7 +54,25 @@ entropy.cond <- function(x, y, base = exp(1)) {
   ent
 }
 
+
+#'  Symmetrical Uncertainty diagnostic
+
 # Formula for symetrical uncertainty as described in  Yu, L. and Liu, H. , 2003.
+#' This functions runs symmetrical uncertainty for two features,
+#' returning the score
+#'
+#' @param x A vector containing a categorical feature
+#' @param y A vector containing other categorical feature
+#' @return A numerical value for the Symetrical Uncertainty score
+#' @export
+#' @examples
+#'  data(scDengue)
+#'  exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#'  discrete_expression <- as.data.frame(discretize_exprs(exprs))
+#'  discrete_expression_gene_1 <- discrete_expression$V1
+#'  discrete_expression_gene_2 <- discrete_expression$V2
+#'  SU(discrete_expression_gene_1,discrete_expression_gene_2)
+
 SU <- function(x, y, base = exp(1)) {
   if (is.character(x)) {
     x <- as.factor(x)
