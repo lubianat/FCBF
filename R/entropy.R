@@ -94,6 +94,21 @@ SU <- function(x, y, base = exp(1)) {
 
 }
 
+#'  Information Gain
+#' This functions runs Information Gain for two features,
+#' returning the score
+#'
+#' @param x A vector containing a categorical feature
+#' @param y A vector containing other categorical feature
+#' @return A numerical value for the Information Gain score
+#' @export
+#' @examples
+#'   data(scDengue)
+#'   exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#'   discrete_expression <- as.data.frame(discretize_exprs(exprs))
+#'   discrete_expression_gene_1 <- discrete_expression$V1
+#'   discrete_expression_gene_2 <- discrete_expression$V2
+#'   IG(discrete_expression_gene_1,discrete_expression_gene_2)
 
 # Formula for Information Gain
 IG <- function(x, y, base = exp(1)) {
