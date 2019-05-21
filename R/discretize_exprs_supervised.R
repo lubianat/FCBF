@@ -1,4 +1,5 @@
 #' @importMethodsFrom SummarizedExperiment assay colData
+#' @import pbapply
 NULL
 #' supervised_disc_df
 #'
@@ -35,7 +36,7 @@ discretize_exprs_supervised <-
     }
     else{
       discrete_expression <-
-        apply(expression_table, 1, discretize_gene_supervised, target)
+        pbapply(expression_table, 1, discretize_gene_supervised, target)
     }
     discrete_expression <- as.data.frame(t(discrete_expression))
     rownames(discrete_expression) <- rownames(expression_table)
