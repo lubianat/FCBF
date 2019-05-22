@@ -13,7 +13,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: False
 RoxygenNote: 6.1.0.9000
-Imports: ggplot2, gridExtra, pbapply, SummarizedExperiment, stats
+Imports: ggplot2, gridExtra, pbapply, parallel, SummarizedExperiment, stats
 Suggests: caret, mlbench, SingleCellExperiment, 
     knitr,
     rmarkdown,
