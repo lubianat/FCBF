@@ -14,7 +14,8 @@
 #' @param FCBF_threshold A threshold for the minimum correlation (as determined by symettrical uncertainty)
 #' between each variable and the class used for wrapped FCBF function. Defaults to 0.1.
 #' @param verbose Adds verbosity. Defaults to FALSE.
-#' @return Returns a list with the CBF modules found
+#' @param output Form of the output. For an adjacency matrix, "matrix", for the list of modules, "modules".
+#' @return Returns a list with the CBF modules found or a adjacency matrix of the graph
 #' @import dplyr
 #' @import progress
 #' @export
@@ -28,7 +29,7 @@
 #'  cbf_modules <- find_modules(discrete_expression,target, FCBF_threshold = 0.06)
 
 
-find_modules <- function(discretized_exprs, target, FCBF_threshold = 0.1, verbose = FALSE){
+find_modules <- function(discretized_exprs, target, FCBF_threshold = 0.1, output ="modules",verbose = FALSE){
 
   # get the SU scores for each gene
   message('Getting SU scores')
@@ -58,7 +59,7 @@ find_modules <- function(discretized_exprs, target, FCBF_threshold = 0.1, verbos
   su_i_j_matrix <- data.frame(genes =  SU_genes)
   message('Calculating adjacency matrix')
   pb_findclusters <- progress_bar$new(total = length(SU_genes),
-                                   format =   "[:bar] :percent eta: :eta")
+                                      format =   "[:bar] :percent eta: :eta")
   # this can surely be improved for speed.
   for (i in SU_genes) {
     pb_findclusters$tick()
@@ -88,11 +89,15 @@ find_modules <- function(discretized_exprs, target, FCBF_threshold = 0.1, verbos
     module_members <- as.character(filtered_su_i_j_matrix$genes[filtered_su_i_j_matrix[,seed]>0])
     module_members <- module_members[!is.na(module_members)]
     if(length(module_members) > 1) {
-    list_of_fcbf_modules[[seed]] <- module_members
+      list_of_fcbf_modules[[seed]] <- module_members
     }
   }
 
-  return(list_of_fcbf_modules)
+  if (output == "matrix"){
+    return(filtered_su_i_j_matrix)
+  }else if (output == "modules"){
+    return(list_of_fcbf_modules)
   }
+}
 
 

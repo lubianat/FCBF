@@ -5,7 +5,7 @@
 \title{find_modules}
 \usage{
 find_modules(discretized_exprs, target, FCBF_threshold = 0.1,
-  verbose = FALSE)
+  output = "modules", verbose = FALSE)
 }
 \arguments{
 \item{discretized_exprs}{A table of features (samples in rows, variables in columns, and each observation in each cell)}
@@ -16,10 +16,12 @@ observations must be in the same order as the parameter x}
 \item{FCBF_threshold}{A threshold for the minimum correlation (as determined by symettrical uncertainty)
 between each variable and the class used for wrapped FCBF function. Defaults to 0.1.}
 
+\item{output}{Form of the output. For an adjacency matrix, "matrix", for the list of modules, "modules".}
+
 \item{verbose}{Adds verbosity. Defaults to FALSE.}
 }
 \value{
-Returns a list with the CBF modules found
+Returns a list with the CBF modules found or a adjacency matrix of the graph
 }
 \description{
 find_modules uses Symmetrical Uncertainty as a correlation measure and the FCBF algorithm to
