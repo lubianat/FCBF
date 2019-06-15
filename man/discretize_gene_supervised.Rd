@@ -7,9 +7,9 @@
 discretize_gene_supervised(gene, target, output = "discretized_vector",
   discs = c(".split_vector_in_two_by_median",
   ".split_vector_in_two_by_mean", ".split_vector_by_kmeans",
-  ".split_vector_in_three_by_mean_sd", ".split_vector_in_two_by_vw"),
-  vw_params = c(0.25, 0.5, 0.75), kmeans_centers = c(2, 3, 4),
-  sd_alpha = c(0.75, 1, 1.25))
+  ".split_vector_in_three_by_mean_sd",
+  ".split_vector_in_two_by_min_max_thresh"), vw_params = c(0.25, 0.5,
+  0.75), kmeans_centers = c(2, 3, 4), sd_alpha = c(0.75, 1, 1.25))
 }
 \arguments{
 \item{gene}{A previously normalized gene expression vector}
@@ -45,12 +45,13 @@ Note that a seed for random values has to bew set for reproducibility.
 Otherwise, the "kmeans" value might vary from iteration to iteration.
 }
 \examples{
-data(scDengue)
-exprs <- as.data.frame(SummarizedExperiment::assay(scDengue, 'logcounts'))
-gene <- exprs['ENSG00000166825',]
-infection <- SummarizedExperiment::colData(scDengue)
-target <- infection$infection
-set.seed(3)
-discrete_expression <- as.data.frame(discretize_gene_supervised(gene, target))
-table(discrete_expression)
+ data(scDengue)
+ exprs <- as.data.frame(SummarizedExperiment::assay(scDengue, 'logcounts'))
+ gene <- exprs['ENSG00000166825',]
+ infection <- SummarizedExperiment::colData(scDengue)
+ target <- infection$infection
+ set.seed(3)
+ discrete_expression <- as.data.frame(discretize_gene_supervised(gene, target))
+ table(discrete_expression)
+
 }
