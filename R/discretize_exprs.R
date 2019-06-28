@@ -1,7 +1,6 @@
 #' @importMethodsFrom SummarizedExperiment assay
 NULL
 
-
 #' discretize_exprs
 #' Simple discretizing of gene expression
 #'
