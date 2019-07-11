@@ -1,6 +1,6 @@
-#' find_modules
+#' find_cbf_modules
 #'
-#' find_modules uses Symmetrical Uncertainty as a correlation measure and the FCBF algorithm to
+#' find_cbf_modules uses Symmetrical Uncertainty as a correlation measure and the FCBF algorithm to
 #'
 #' 1 - Filter the gene list by correlations to a class (Step 1)
 #'
@@ -29,7 +29,7 @@
 #'  cbf_modules <- find_modules(discrete_expression,target, FCBF_threshold = 0.06)
 
 
-find_modules <- function(discretized_exprs, target, FCBF_threshold = 0.1, output ="modules",verbose = FALSE){
+find_cbf_modules <- function(discretized_exprs, target, FCBF_threshold = 0.1, output ="modules",verbose = FALSE){
 
   # get the SU scores for each gene
   message('Getting SU scores')
