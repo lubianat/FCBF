@@ -42,22 +42,25 @@ source('R/entropy.R')
 #' @param samples_in_rows A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
 #' Note: this might drastically change the number of selected features.
 #' @param verbose Adds verbosity. Defaults to FALSE.
+#' @param n_genes Sets the number of genes to be selected in the first part of the algorithm.
+#' If left unchanged, it defaults to NULL and the thresh parameter is used.
+#' Caution: it overrides the thresh parameter altogether.
 #' @param balance_classes Balances number of instances in the target vector y by sampling the number of instances in the
 #' minor class from all others. The number of samplings is controlled by resampling_number. Defaults to FALSE.
 
 #' @return Returns a data frame with the selected features index (first row) and their symmetrical uncertainty values regarding the class (second row). Variable names are present in rownames
 #' @export
 #' @examples
-#' data(scDengue)
-#' exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
-#' discrete_expression <- as.data.frame(discretize_exprs(exprs))
-#' head(discrete_expression[,1:4])
-#' infection <- SummarizedExperiment::colData(scDengue)
-#' target <- infection$infection
-#' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
-#' fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE, balance_classes = TRUE)
+#'  data(scDengue)
+#'  exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#'  discrete_expression <- as.data.frame(discretize_exprs(exprs))
+#'  head(discrete_expression[,1:4])
+#'  infection <- SummarizedExperiment::colData(scDengue)
+#'  target <- infection$infection
+#'  fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+#'  fcbf(discrete_expression,target, n_genes = 100)
 
-fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE, balance_classes = FALSE) {
+fcbf <- function(x, y, thresh = 0.25,n_genes = NULL, verbose = FALSE, samples_in_rows = FALSE, balance_classes = FALSE) {
 
   if (!samples_in_rows){
   x <- t(x)
@@ -71,6 +74,10 @@ fcbf <- function(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE, 
   su_ic <- apply(x, 2, function(xx, yy) {
     SU(xx, yy)
   }, y)
+
+  if(length(n_genes)){
+    thresh <- sort(su_ic,decreasing = T)[n_genes-1]
+  }
 
   s_prime <- data.frame(f = (seq_len(nvar))[which(su_ic >= thresh)], su = su_ic[which(su_ic >= thresh)])
 
