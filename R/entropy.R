@@ -10,7 +10,6 @@ entropy <- function(x, base = exp(1)) {
   if (!is.factor(x)) {
     stop("For calculating the entropy, the vector must be a factor")
   }
-  x <- factor(x)
   t <- table(x)
   probabily_of_t <- t / sum(t)
   if (any(t == 0)) {
@@ -28,8 +27,6 @@ entropy.joint <- function(x, y, base = exp(1)) {
   if (!is.factor(x) || !is.factor(y)) {
     stop("For calculating the joint entropy, the vector x & y must be factors")
   }
-  x <- factor(x)
-  y <- factor(y)
   t <- table(x, y)
   probabily_of_t <- as.numeric(t / sum(t))
   if (any(probabily_of_t == 0)) {
@@ -83,7 +80,6 @@ SU <- function(x, y, base = exp(1)) {
       Using a continuous(numeric) feature set leads to this error."
     )
   }
-
   Ht <- entropy.joint(x, y, base)
   Hx <- entropy(x, base)
   Hy <- entropy(y, base)

@@ -39,8 +39,8 @@ source('R/entropy.R')
 #' observations must be in the same order as the parameter x
 #' @param thresh A threshold for the minimum correlation (as determined by symettrical uncertainty)
 #' between each variable and the class. Defaults to 0.25.
-#' @param samples_in_rows A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
 #' Note: this might drastically change the number of selected features.
+#' @param samples_in_rows A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
 #' @param verbose Adds verbosity. Defaults to FALSE.
 #' @param n_genes Sets the number of genes to be selected in the first part of the algorithm.
 #' If left unchanged, it defaults to NULL and the thresh parameter is used.

@@ -14,7 +14,8 @@ fcbf(x, y, thresh = 0.25, n_genes = NULL, verbose = FALSE,
 observations must be in the same order as the parameter x}
 
 \item{thresh}{A threshold for the minimum correlation (as determined by symettrical uncertainty)
-between each variable and the class. Defaults to 0.25.}
+between each variable and the class. Defaults to 0.25.
+Note: this might drastically change the number of selected features.}
 
 \item{n_genes}{Sets the number of genes to be selected in the first part of the algorithm.
 If left unchanged, it defaults to NULL and the thresh parameter is used.
@@ -22,8 +23,7 @@ Caution: it overrides the thresh parameter altogether.}
 
 \item{verbose}{Adds verbosity. Defaults to FALSE.}
 
-\item{samples_in_rows}{A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
-Note: this might drastically change the number of selected features.}
+\item{samples_in_rows}{A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.}
 
 \item{balance_classes}{Balances number of instances in the target vector y by sampling the number of instances in the
 minor class from all others. The number of samplings is controlled by resampling_number. Defaults to FALSE.}
