@@ -26,14 +26,14 @@ Defaults to 3.}
 Modulated by the alpha param, which enlarges (>1) or shrinks (<1) the "medium" interval. ),
 ),
 "kmeans"(Split in different groups by the kmeans algorithm. As many groups as specified by the centers param) and
-"min_max_%" (Similat to the "varying width", a binarization threshold in a % of the min-max range is set. (minmax% param)),
+"min_max_percent" (Similat to the "varying width", a binarization threshold in a percent of the min-max range is set. (minmaxpercent param)),
 "GMM" (A Gaussian Mixture Model as implemented by the package mclust, trying to fit 2:5 Gaussians)}
 
 \item{alpha}{Modulator for the "mean_sd" method.Enlarges (>1) or shrinks (<1) the "medium" interval. Defaults to 1.}
 
 \item{centers}{Modulator for the "kmeans" method. Defaults to 3.}
 
-\item{min_max_cutoff}{<- Modulator for the "min_max_%" method. Defaults to 0.25.}
+\item{min_max_cutoff}{<- Modulator for the "min_max_percent" method. Defaults to 0.25.}
 
 \item{progress_bar}{Enables a progress bar for the discretization. Defaults to TRUE.}
 }

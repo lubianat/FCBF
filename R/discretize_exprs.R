@@ -21,7 +21,7 @@ NULL
 #' Modulated by the alpha param, which enlarges (>1) or shrinks (<1) the "medium" interval. ),
 #' ),
 #' "kmeans"(Split in different groups by the kmeans algorithm. As many groups as specified by the centers param) and
-#' "min_max_%" (Similat to the "varying width", a binarization threshold in a % of the min-max range is set. (minmax% param)),
+#' "min_max_percent" (Similat to the "varying width", a binarization threshold in a percent of the min-max range is set. (minmaxpercent param)),
 #' "GMM" (A Gaussian Mixture Model as implemented by the package mclust, trying to fit 2:5 Gaussians)
 #' @param number_of_bins Number of equal-width bins for discretization.
 #' Note: it is a binary discretization, with the
@@ -29,7 +29,7 @@ NULL
 #' Defaults to 3.
 #' @param alpha Modulator for the "mean_sd" method.Enlarges (>1) or shrinks (<1) the "medium" interval. Defaults to 1.
 #' @param centers Modulator for the "kmeans" method. Defaults to 3.
-#' @param min_max_cutoff <- Modulator for the "min_max_%" method. Defaults to 0.25.
+#' @param min_max_cutoff <- Modulator for the "min_max_percent" method. Defaults to 0.25.
 #' @param progress_bar Enables a progress bar for the discretization. Defaults to TRUE.
 #' @return A data frame with the discretized features in the same order as previously
 #' @import mclust
@@ -62,7 +62,7 @@ discretize_exprs <-
     } else   if (method == "kmeans") {
       .split_fun <- .split_vector_by_kmeans
       formals(.split_fun)[2] <- centers
-    }  else   if (method == "min_max_%") {
+    }  else   if (method == "min_max_percent") {
       .split_fun <- .split_vector_in_two_by_min_max_thresh
       formals(.split_fun)[2] <- min_max_cutoff
     } else   if (method == "GMM") {
