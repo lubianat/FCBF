@@ -1,19 +1,18 @@
 Package: FCBF
 Type: Package
 Title: Fast Correlation Based Filter for Feature Selection
-Version: 1.2.2
+Version: 1.3.2
 Authors@R: c(person("Tiago", "Lubiana", email = "tiago.lubiana.alves@usp.br",
   role = c("aut", "cre")), person("Helder", "Nakaya", email = "hnkaya@usp.br",
   role = c("aut","ths")))
-Maintainer: Tiago Lubiana <tiago.lubiana.alves@usp.br>
 Description: This package provides a simple R implementation for the Fast Correlation Based Filter described in Yu, L. and Liu, H.; Feature Selection for High-Dimensional Data: A Fast Correlation Based Filter Solution,Proc. 20th Intl. Conf. Mach. Learn. (ICML-2003), Washington DC, 2003
     The current package is an intent to make easier for bioinformaticians to use FCBF for feature selection, especially regarding transcriptomic data.This implies discretizing expression (function discretize_exprs) before calculating the features that explain the class, but are not predictable by other features.
     The functions are implemented based on the algorithm of Yu and Liu, 2003 and Rajarshi Guha's implementation from 13/05/2005 available (as of 26/08/2018) at http://www.rguha.net/code/R/fcbf.R . 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: False
-RoxygenNote: 6.1.0.9000
-Imports: ggplot2, gridExtra, pbapply, parallel, SummarizedExperiment, stats
+RoxygenNote: 6.1.1
+Imports: ggplot2, gridExtra, pbapply, parallel, SummarizedExperiment, stats, mclust
 Suggests: caret, mlbench, SingleCellExperiment, 
     knitr,
     rmarkdown,
@@ -21,4 +20,4 @@ Suggests: caret, mlbench, SingleCellExperiment,
     BiocManager
 biocViews: GeneTarget, FeatureExtraction, Classification, GeneExpression, SingleCell, ImmunoOncology
 VignetteBuilder: knitr
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.6)

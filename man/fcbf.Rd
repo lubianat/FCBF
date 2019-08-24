@@ -4,8 +4,8 @@
 \alias{fcbf}
 \title{Fast Correlation Based Filter function.}
 \usage{
-fcbf(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE,
-  balance_classes = FALSE)
+fcbf(x, y, thresh = 0.25, n_genes = NULL, verbose = FALSE,
+  samples_in_rows = FALSE, balance_classes = FALSE)
 }
 \arguments{
 \item{x}{A table of features (samples in rows, variables in columns, and each observation in each cell)}
@@ -14,12 +14,16 @@ fcbf(x, y, thresh = 0.25, verbose = FALSE, samples_in_rows = FALSE,
 observations must be in the same order as the parameter x}
 
 \item{thresh}{A threshold for the minimum correlation (as determined by symettrical uncertainty)
-between each variable and the class. Defaults to 0.25.}
+between each variable and the class. Defaults to 0.25.
+Note: this might drastically change the number of selected features.}
+
+\item{n_genes}{Sets the number of genes to be selected in the first part of the algorithm.
+If left unchanged, it defaults to NULL and the thresh parameter is used.
+Caution: it overrides the thresh parameter altogether.}
 
 \item{verbose}{Adds verbosity. Defaults to FALSE.}
 
-\item{samples_in_rows}{A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
-Note: this might drastically change the number of selected features.}
+\item{samples_in_rows}{A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.}
 
 \item{balance_classes}{Balances number of instances in the target vector y by sampling the number of instances in the
 minor class from all others. The number of samplings is controlled by resampling_number. Defaults to FALSE.}
@@ -39,12 +43,12 @@ Proc. 20th Intl. Conf. Mach. Learn. (ICML-2003), Washington DC, 2003
 Obs: For gene expression, you will need to run discretize_exprs first
 }
 \examples{
-data(scDengue)
-exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
-discrete_expression <- as.data.frame(discretize_exprs(exprs))
-head(discrete_expression[,1:4])
-infection <- SummarizedExperiment::colData(scDengue)
-target <- infection$infection
-fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
-fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE, balance_classes = TRUE)
+ data(scDengue)
+ exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+ discrete_expression <- as.data.frame(discretize_exprs(exprs))
+ head(discrete_expression[,1:4])
+ infection <- SummarizedExperiment::colData(scDengue)
+ target <- infection$infection
+ fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+ fcbf(discrete_expression,target, n_genes = 100)
 }

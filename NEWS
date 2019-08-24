@@ -3,4 +3,8 @@
 * Added a `NEWS.md` file to track changes to the package.
 
 
+# FCBF 1.2.3
+
+* Added a parameter for choosing the number of features to be selected
+in the first step, instead of a threshold.
 

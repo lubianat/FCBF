@@ -4,13 +4,17 @@
 \alias{get_su}
 \title{Symmetrical Uncertainty diagnostic}
 \usage{
-get_su(x, y)
+get_su(x, y, samples_in_rows = FALSE, bar_of_progress = FALSE)
 }
 \arguments{
 \item{x}{A table of features (observations in rows, variables in columns)}
 
 \item{y}{A target vector, factor containing classes of the observations. Note: the
 observations must be in the same order as the parameter x.}
+
+\item{samples_in_rows}{A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.}
+
+\item{bar_of_progress}{A flag to show progress. Defaults to FALSE.}
 }
 \value{
 A dataframe containing the SU values for each feature
