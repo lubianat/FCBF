@@ -76,7 +76,7 @@ fcbf <- function(x, y, thresh = 0.25,n_genes = NULL, verbose = FALSE, samples_in
   }, y)
 
   if(length(n_genes)){
-    thresh <- sort(su_ic,decreasing = T)[n_genes-1]
+    thresh <- sort(su_ic,decreasing = TRUE)[n_genes-1]
   }
 
   s_prime <- data.frame(f = (seq_len(nvar))[which(su_ic >= thresh)], su = su_ic[which(su_ic >= thresh)])

@@ -10,13 +10,14 @@
 #' @param name The name of the plot.
 #' @param color The color of the plot. Defaults to a shade of red ("#B30000FF").
 #' @param n The max number of gene labels to show.  Defaults to 10.
+#' @return A gg object
 plot_one_module <- function(adjacency_matrix,
                              name,
                              color = "#B30000FF",
                              n = 10) {
   adj <- as.matrix(adjacency_matrix)
 
-  ig_obj <- graph.adjacency(adj, weighted = T)
+  ig_obj <- graph.adjacency(adj, weighted = TRUE)
 
   degrees <- igraph::degree(ig_obj, normalized = FALSE)
 
@@ -41,7 +42,7 @@ plot_one_module <- function(adjacency_matrix,
   plotcord[, "shouldLabel"] <- FALSE
 
   max_n <- min(n, length(degrees))
-  int_hubs <- names(sort(degrees, decreasing = TRUE))[1:max_n]
+  int_hubs <- names(sort(degrees, decreasing = TRUE))[seq_len(max_n)]
   int_bool <- plotcord[, "vertex.names"] %in% int_hubs
   sel_vertex <- int_hubs
   colnames(edges) <-  c("X1", "Y1", "X2", "Y2")

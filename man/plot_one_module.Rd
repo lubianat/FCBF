@@ -18,6 +18,9 @@ plot_one_module(adjacency_matrix, name, color = "#B30000FF", n = 10)
 
 \item{genes}{A character vector with the FCBF selected genes}
 }
+\value{
+A gg object
+}
 \description{
 Takes as input an adjacency matrix from the find_modules function
 (output = "matrix") an a list of hubs (FCBF - selected)
