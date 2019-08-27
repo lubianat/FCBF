@@ -30,7 +30,7 @@ entropy.joint <- function(x, y, base = exp(1)) {
   t <- table(x, y)
   probabily_of_t <- as.numeric(t / sum(t))
   if (any(probabily_of_t == 0)) {
-    probabily_of_t <- probabily_of_t[-which(probabily_of_t== 0)]
+    probabily_of_t <- probabily_of_t[-which(probabily_of_t == 0)]
   }
   ent <- -1 * sum(probabily_of_t * log(probabily_of_t) / log(base))
   if (is.na(ent)) {
@@ -88,7 +88,7 @@ SU <- function(x, y, base = exp(1)) {
   # Returns the symmetrical uncertainty value for the vector pair
   2 * (Hy + Hx - Ht) / (Hx + Hy)
 
-}
+  }
 
 #'  Information Gain
 #' This functions runs Information Gain for two features,
@@ -117,10 +117,10 @@ IG <- function(x, y, base = exp(1)) {
       Using a continuous(numeric) feature set leads to this error."
     )
   }
-    Ht <- entropy.joint(x, y, base)
-    Hx <- entropy(x, base)
-    Hy <- entropy(y, base)
-    # Returns the information gain for the pair
-    IG <- (Hy + Hx - Ht)
-    IG
-}
+  Ht <- entropy.joint(x, y, base)
+  Hx <- entropy(x, base)
+  Hy <- entropy(y, base)
+  # Returns the information gain for the pair
+  IG <- (Hy + Hx - Ht)
+  IG
+  }

@@ -25,8 +25,8 @@ NULL
 get_ig <- function(x, y) {
   x <- t(x)
   x <- data.frame(x)
- ig_ic <- apply(x, 2, function(xx, yy) {
+  ig_ic <- apply(x, 2, function(xx, yy) {
     IG(xx, yy)
   }, y)
-  as.data.frame(sort(ig_ic,decreasing = TRUE))
+  as.data.frame(sort(ig_ic, decreasing = TRUE))
 }

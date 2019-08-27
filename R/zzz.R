@@ -1,6 +1,9 @@
-.onLoad <- function(libname, pkgname){
+.onLoad <- function(libname, pkgname) {
   opts <- list(
-    type = if (interactive()) "timer" else "none",
+    type = if (interactive())
+      "timer"
+    else
+      "none",
     char = "+",
     txt.width = 50,
     gui.width = 300,
@@ -10,7 +13,8 @@
     label = "",
     nout = 100L,
     min_time = 0,
-    use_lb = FALSE)
+    use_lb = FALSE
+  )
   optsx <- getOption("pboptions")
   if (!is.null(optsx)) {
     for (i in intersect(names(opts), names(optsx)))
@@ -22,7 +26,7 @@
   invisible(NULL)
 }
 
-.onUnload <- function(libpath){
+.onUnload <- function(libpath) {
   options("pboptions" = NULL)
   invisible(NULL)
 }

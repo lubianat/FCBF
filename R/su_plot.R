@@ -29,17 +29,17 @@ su_plot <- function(x, y) {
     SU(xx, yy)
   }, y)
   su_ic <- as.data.frame(su_ic)
-  p1 <- ggplot(su_ic, (aes(x=su_ic)))+
-    geom_histogram(binwidth= 0.008) +
+  p1 <- ggplot(su_ic, (aes(x = su_ic))) +
+    geom_histogram(binwidth = 0.008) +
     xlab('Correlation by Symmetrical Uncertainty to target') +
     ylab('Variable counts') +
     ggtitle('Histogram of SU values of each variable to the target classes')
 
-  p2 <- ggplot(su_ic, (aes(y=su_ic)))+
+  p2 <- ggplot(su_ic, (aes(y = su_ic))) +
     geom_boxplot(outlier.alpha = 0.5) +
     ylab('Correlation by Symmetrical Uncertainty to target') +
     ggtitle('Boxplot of SU values of each variable to the target classes') +
-    theme(axis.text.x=element_blank())
+    theme(axis.text.x = element_blank())
 
   grid.arrange(p1, p2, nrow = 1)
 }

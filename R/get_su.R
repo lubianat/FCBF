@@ -40,3 +40,4 @@ get_su <- function(x, y, samples_in_rows = FALSE, bar_of_progress = FALSE) {
   su_ic$gene <- rownames(su_ic)
   su_ic
   }
+
