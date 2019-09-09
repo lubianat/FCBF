@@ -1,4 +1,4 @@
-Package: FCBF
+ackage: FCBF
 Type: Package
 Title: Fast Correlation Based Filter for Feature Selection
 Version: 1.2.3
