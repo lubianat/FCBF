@@ -77,6 +77,8 @@ discrete_expression <- as.data.frame(discretize_exprs(exprs))
 
 head(discrete_expression[,1:4])
 
+
+
 ```
 
 
@@ -92,7 +94,7 @@ infection <- SummarizedExperiment::colData(scDengue)
 
 # get the class variable
 #(note, the order of the samples is the same as in the exprs file)
-target <- infection$infection
+target <- as.factor(infection$infection)
 ```
 
 Having a class variable and a discrete, categorical feature table, we can run  the function fcbf. The code as follows would run for a minute or two and generate an error. 

@@ -11,7 +11,7 @@ Description: This package provides a simple R implementation for the Fast Correl
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: False
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Imports: ggplot2, gridExtra, pbapply, parallel, SummarizedExperiment, stats, mclust
 Suggests: caret, mlbench, SingleCellExperiment, 
     knitr,

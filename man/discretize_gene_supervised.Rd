@@ -4,12 +4,17 @@
 \alias{discretize_gene_supervised}
 \title{discretize_gene_supervised}
 \usage{
-discretize_gene_supervised(gene, target, output = "discretized_vector",
-  discs = c(".split_vector_in_two_by_median",
-  ".split_vector_in_two_by_mean", ".split_vector_by_kmeans",
-  ".split_vector_in_three_by_mean_sd",
-  ".split_vector_in_two_by_min_max_thresh"), vw_params = c(0.25, 0.5,
-  0.75), kmeans_centers = c(2, 3, 4), sd_alpha = c(0.75, 1, 1.25))
+discretize_gene_supervised(
+  gene,
+  target,
+  output = "discretized_vector",
+  discs = c(".split_vector_in_two_by_median", ".split_vector_in_two_by_mean",
+    ".split_vector_by_kmeans", ".split_vector_in_three_by_mean_sd",
+    ".split_vector_in_two_by_min_max_thresh"),
+  vw_params = c(0.25, 0.5, 0.75),
+  kmeans_centers = c(2, 3, 4),
+  sd_alpha = c(0.75, 1, 1.25)
+)
 }
 \arguments{
 \item{gene}{A previously normalized gene expression vector}

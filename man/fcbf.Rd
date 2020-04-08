@@ -4,8 +4,15 @@
 \alias{fcbf}
 \title{Fast Correlation Based Filter function.}
 \usage{
-fcbf(x, y, thresh = 0.25, n_genes = NULL, verbose = FALSE,
-  samples_in_rows = FALSE, balance_classes = FALSE)
+fcbf(
+  x,
+  y,
+  thresh = 0.25,
+  n_genes = NULL,
+  verbose = FALSE,
+  samples_in_rows = FALSE,
+  balance_classes = FALSE
+)
 }
 \arguments{
 \item{x}{A table of features (samples in rows, variables in columns, and each observation in each cell)}

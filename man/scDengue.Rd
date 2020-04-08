@@ -4,7 +4,9 @@
 \name{scDengue}
 \alias{scDengue}
 \title{Dengue infected macrophages; gene expression data from GEO study GSE110496}
-\format{An object of class \code{SingleCellExperiment}}
+\format{
+An object of class \code{SingleCellExperiment}
+}
 \source{
 \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE110496}{GEO}
 }

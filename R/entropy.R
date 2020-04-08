@@ -74,6 +74,7 @@ SU <- function(x, y, base = exp(1)) {
   if (is.character(x)) {
     x <- as.factor(x)
   }
+    y <- as.factor(y) 
   if (!is.factor(x) || !is.factor(y)) {
     stop(
       "For calculating the symmetrical uncertainty, the vectors x & y must be factors.

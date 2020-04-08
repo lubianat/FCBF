@@ -82,7 +82,7 @@ discretize_exprs <-
         apply(expression_table, 1, .split_fun)
     }
 
-    discrete_expression <- as.data.frame(t(discrete_expression))
+    discrete_expression <- as.data.frame(t(discrete_expression), stringsAsFactors=TRUE)
     rownames(discrete_expression) <- rownames(expression_table)
     return(discrete_expression)
   }

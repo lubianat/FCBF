@@ -5,9 +5,15 @@
 \title{discretize_exprs
 Simple discretizing of gene expression}
 \usage{
-discretize_exprs(expression_table, number_of_bins = 3,
-  method = "varying_width", alpha = 1, centers = 3,
-  min_max_cutoff = 0.25, progress_bar = TRUE)
+discretize_exprs(
+  expression_table,
+  number_of_bins = 3,
+  method = "varying_width",
+  alpha = 1,
+  centers = 3,
+  min_max_cutoff = 0.25,
+  progress_bar = TRUE
+)
 }
 \arguments{
 \item{expression_table}{A previously normalized expression table
