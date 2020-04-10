@@ -8,3 +8,7 @@
 * Added a parameter for choosing the number of features to be selected
 in the first step, instead of a threshold.
 
+
+# FCBF 1.5.1
+
+* Bug fix to conform to R 4.0.0
