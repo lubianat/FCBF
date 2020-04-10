@@ -60,6 +60,7 @@ entropy.cond <- function(x, y, base = exp(1)) {
 #'
 #' @param x A vector containing a categorical feature
 #' @param y A vector containing other categorical feature
+#' @param base The base used for the logaritmic function. The default is exp(1) (~2.718)
 #' @return A numerical value for the Symetrical Uncertainty score
 #' @export
 #' @examples
@@ -97,6 +98,7 @@ SU <- function(x, y, base = exp(1)) {
 #'
 #' @param x A vector containing a categorical feature
 #' @param y A vector containing other categorical feature
+#' @param base The base used for the logaritmic function. The default is exp(1) (~2.718)
 #' @return A numerical value for the Information Gain score
 #' @export
 #' @examples

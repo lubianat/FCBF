@@ -12,6 +12,8 @@ SU(x, y, base = exp(1))
 \item{x}{A vector containing a categorical feature}
 
 \item{y}{A vector containing other categorical feature}
+
+\item{base}{The base used for the logaritmic function. The default is exp(1) (~2.718)}
 }
 \value{
 A numerical value for the Symetrical Uncertainty score
