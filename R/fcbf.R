@@ -78,7 +78,7 @@ fcbf <-
         message("Calculating symmetrical uncertainties")
       }
       su_ic <- apply(x, 2, function(xx, yy) {
-        SU(xx, yy)
+        get_SU_for_vector_pair(xx, yy)
       }, y)
 
       if (length(n_genes)) {
@@ -123,8 +123,8 @@ fcbf <-
         if (!is.na(next_prime)) {
           while (TRUE) {
             prime_to_be_compared <- next_prime
-            su1 = SU(x[, first_prime], x[, next_prime])
-            su2 = SU(x[, next_prime], y)
+            su1 = get_SU_for_vector_pair(x[, first_prime], x[, next_prime])
+            su2 = get_SU_for_vector_pair(x[, next_prime], y)
             if (su1 > su2) {
               next_prime <- .get.next.elem(s_prime, next_prime)
               s_prime <-
@@ -156,11 +156,11 @@ fcbf <-
       }
       if (length(s_prime) > 1) {
         suvalues <- apply(x[, s_prime], 2, function(xx, yy) {
-          SU(xx, yy)
+          get_SU_for_vector_pair(xx, yy)
         }, y)
         data.frame(index = s_prime, SU = suvalues)
       } else {
-        data.frame(index = s_prime, SU = SU(x[, s_prime], y))
+        data.frame(index = s_prime, SU = get_SU_for_vector_pair(x[, s_prime], y))
       }
     }
     else{
