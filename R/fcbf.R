@@ -37,17 +37,17 @@ source('R/entropy.R')
 #' @param feature_table A table of features (samples in rows, variables in columns, and each observation in each cell)
 #' @param target_vector A target vector, factor containing classes of the observations. Note: the
 #' observations must be in the same order as the parameter x
-#' 
-#' @param n_genes_selected_in_first_step Sets the number of genes to be selected in the first part of the algorithm. 
+#'
+#' @param n_genes_selected_in_first_step Sets the number of genes to be selected in the first part of the algorithm.
 #' The final number of selected genes is related to this paramenter, but depends on the correlation structure of the data.
-#' It overrides the minimum_su parameter. 
-#' If left unchanged, it defaults to NULL and the thresh parameter is used.
-#' @param minimum_su A threshold for the minimum correlation (as determined by symettrical uncertainty)
+#' It overrides the minimum_su parameter.
+#' If left unchanged, it defaults to NULL and the minimum_su parameter is used.
+#' @param minimum_su A minimum_suold for the minimum correlation (as determined by symettrical uncertainty)
 #' between each variable and the class. Defaults to 0.25.
-#' 
+#'
 #' Note: this might drastically change the number of selected features.
 
-#' 
+#'
 #' @param samples_in_rows A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
 #' @param verbose Adds verbosity. Defaults to FALSE.
 #' @param balance_classes Balances number of instances in the target vector y by sampling the number of instances in the
@@ -62,81 +62,86 @@ source('R/entropy.R')
 #'  head(discrete_expression[,1:4])
 #'  infection <- SummarizedExperiment::colData(scDengue)
 #'  target <- infection$infection
-#'  fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+#'  fcbf(discrete_expression,target, minimum_su = 0.05, verbose = TRUE)
 #'  fcbf(discrete_expression,target, n_genes_selected_in_first_step = 100)
 
 fcbf <-
   function(feature_table,
            target_vector,
-           thresh = 0.25,
+           minimum_su = 0.25,
            n_genes_selected_in_first_step = NULL,
            verbose = FALSE,
            samples_in_rows = FALSE,
            balance_classes = FALSE) {
-    
     if (samples_in_rows == FALSE) {
       feature_table <- t(feature_table)
     }
-
-    if (balance_classes == TRUE){
-      
+    
+    # Resampling of the feature table to balance class weights and recursive call to FCBF
+    if (balance_classes == TRUE) {
       instances_in_minor_class <- min(table(target_vector))
       n_x <- as.data.frame(cbind(feature_table, target_vector))
       
-      final_x <- data.frame(n_x[1, ])
-      final_x <- final_x[-1, ]
+      final_x <- data.frame(n_x[1,])
+      final_x <- final_x[-1,]
       for (i in levels(as.factor(n_x[, ncol(n_x)]))) {
-        n_x_i <- n_x[n_x[, ncol(n_x)] == i, ]
+        n_x_i <- n_x[n_x[, ncol(n_x)] == i,]
         n_x_i <-
-          n_x_i[sample(seq_len(length.out = nrow(n_x_i)), instances_in_minor_class), ]
+          n_x_i[sample(seq_len(length.out = nrow(n_x_i)), instances_in_minor_class),]
         final_x <- rbind(n_x_i, final_x)
       }
       
       final_x$target_vector <- NULL
-      fcbf(t(final_x),
-           target_vector,
-           thresh,
-           verbose,
-           samples_in_rows,
-           balance_classes = FALSE)
+      fcbf(
+        t(final_x),
+        target_vector,
+        minimum_su,
+        verbose,
+        samples_in_rows,
+        balance_classes = FALSE
+      )
       
     }
     
     else if (balance_classes == FALSE) {
-      
       feature_table <- data.frame(feature_table)
-      nvar <- ncol(feature_table)
+      number_of_variables <- ncol(feature_table)
       
       if (verbose) {
         message("Calculating symmetrical uncertainties")
       }
       
-      su_ic <- apply(feature_table, 2, function(xx, yy) {
-        get_SU_for_vector_pair(xx, yy)
-      }, target_vector)
-
+      su_values_for_features_with_regards_to_class <-
+        apply(feature_table, 2, function(xx, yy) {
+          get_SU_for_vector_pair(xx, yy)
+        }, target_vector)
+      
+      
       if (length(n_genes_selected_in_first_step)) {
-        thresh <- sort(su_ic, decreasing = TRUE)[n_genes_selected_in_first_step - 1]
+        minimum_su <-
+          sort(su_values_for_features_with_regards_to_class,
+               decreasing = TRUE)[n_genes_selected_in_first_step - 1]
       }
-
+      
       s_prime <-
-        data.frame(f = (seq_len(nvar))[which(su_ic >= thresh)], su = su_ic[which(su_ic >= thresh)])
-
-      s_prime <- s_prime[sort.list(s_prime$su, decreasing = TRUE), ]
-
-      # s_prime is the list of selected features ranked by su_ic
+        data.frame(f = (seq_len(number_of_variables))[which(su_values_for_features_with_regards_to_class >= minimum_su)],
+                   su = su_values_for_features_with_regards_to_class[which(su_values_for_features_with_regards_to_class >= minimum_su)])
+      
+      s_prime <- s_prime[sort.list(s_prime$su, decreasing = TRUE),]
+      
+      # s_prime is the list of selected features ranked by su_values_for_features_with_regards_to_class
       s_prime <- s_prime[, 1]
-
+      
       if (length(s_prime) == 1) {
         s_prime
       } else if (length(s_prime) == 0) {
-        stop("No prospective features for this threshold level. Threshold: ",
-             thresh)
+        stop("No prospective features for this minimum_su level. Threshold: ",
+             minimum_su)
       }
-
+      
       print(paste('Number of prospective features = ', length(s_prime)))
-
-
+      
+      
       first_prime  <- s_prime[1]
       cnt <- 1
       while (TRUE) {
@@ -152,15 +157,19 @@ fcbf <-
               ' '
           ))
         }
-
-        next_prime <- .get.next.elem(s_prime, first_prime)
-        if (!is.na(next_prime)) {
+        
+        next_element_in_prime_list <- .get.next.elem(s_prime, first_prime)
+        
+        if (!is.na(next_element_in_prime_list)) {
+          
           while (TRUE) {
-            prime_to_be_compared <- next_prime
-            su1 = get_SU_for_vector_pair(feature_table[, first_prime], feature_table[, next_prime])
-            su2 = get_SU_for_vector_pair(feature_table[, next_prime], target_vector)
+            
+            prime_to_be_compared <- next_element_in_prime_list
+            su1 = get_SU_for_vector_pair(feature_table[, first_prime], feature_table[, next_element_in_prime_list])
+            su2 = get_SU_for_vector_pair(feature_table[, next_element_in_prime_list], target_vector)
+            
             if (su1 > su2) {
-              next_prime <- .get.next.elem(s_prime, next_prime)
+              next_element_in_prime_list <- .get.next.elem(s_prime, next_element_in_prime_list)
               s_prime <-
                 s_prime[-which(s_prime == prime_to_be_compared)]
               if (verbose) {
@@ -175,21 +184,22 @@ fcbf <-
               }
             }
             else {
-              next_prime <- .get.next.elem(s_prime, next_prime)
+              next_element_in_prime_list <- .get.next.elem(s_prime, next_element_in_prime_list)
             }
-            if (is.na(next_prime)) {
+            if (is.na(next_element_in_prime_list)) {
               break
             }
           }
         }
+        
         first_prime  <- .get.next.elem(s_prime, first_prime)
-
+        
         if (is.na(first_prime)) {
           break
         }
       }
+      
       if (length(s_prime) > 1) {
-        
         suvalues <- apply(feature_table[, s_prime], 2, function(xx, yy) {
           get_SU_for_vector_pair(xx, yy)
         }, target_vector)
@@ -197,8 +207,9 @@ fcbf <-
         data.frame(index = s_prime, SU = suvalues)
         
       } else {
-        data.frame(index = s_prime, SU = get_SU_for_vector_pair(feature_table[, s_prime], target_vector))
+        data.frame(index = s_prime,
+                   SU = get_SU_for_vector_pair(feature_table[, s_prime], target_vector))
       }
     }
-
+    
   }
