@@ -74,9 +74,9 @@ test_that("base entropy functions work", {
                     tolerance = 0.01)
   
   
-  expect_equal(SU(factor_a, factor_a), 
+  expect_equal(get_SU_for_vector_pair(factor_a, factor_a), 
                     1)
-  expect_equivalent(SU(factor_a, factor_b), 
+  expect_equivalent(get_SU_for_vector_pair(factor_a, factor_b), 
                     0.619,
                     tolerance = 0.01)
   

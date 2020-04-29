@@ -6,7 +6,7 @@
 This functions runs Information Gain for two features,
 returning the score}
 \usage{
-IG(x, y, base = exp(1))
+IG(x, y, base = 2)
 }
 \arguments{
 \item{x}{A vector containing a categorical feature}
