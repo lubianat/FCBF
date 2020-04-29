@@ -6,7 +6,7 @@
 
 # H(X) - entropy
 
-get_entropy_for_vectors <- function(x, base = exp(1)) {
+get_entropy_for_vectors <- function(x, base = 2) {
   if (!is.factor(x)) {
     stop("For calculating the entropy, the vector must be a factor")
   }
@@ -23,7 +23,7 @@ get_entropy_for_vectors <- function(x, base = exp(1)) {
 }
 
 # H(X,Y) - joint entropy
-get_joint_entropy_for_vectors <- function(x, y, base = exp(1)) {
+get_joint_entropy_for_vectors <- function(x, y, base = 2) {
   if (!is.factor(x) || !is.factor(y)) {
     stop("For calculating the joint entropy, the vector x & y must be factors")
   }
@@ -40,7 +40,7 @@ get_joint_entropy_for_vectors <- function(x, y, base = exp(1)) {
 }
 
 # H(X|Y) = H(X,Y) - H(Y) - conditional entropy
-get_conditional_entropy_for_vectors <- function(x, y, base = exp(1)) {
+get_conditional_entropy_for_vectors <- function(x, y, base = 2) {
   if (!is.factor(x) || !is.factor(y)) {
     stop("For calculating the conditional entropy, the vectors x & y must be factors")
   }
@@ -71,7 +71,7 @@ get_conditional_entropy_for_vectors <- function(x, y, base = exp(1)) {
 #'  discrete_expression_gene_2 <- discrete_expression$V2
 #'  SU(discrete_expression_gene_1,discrete_expression_gene_2)
 
-SU <- function(x, y, base = exp(1)) {
+SU <- function(x, y, base = 2) {
   if (is.character(x)) {
     x <- as.factor(x)
   }
@@ -110,7 +110,7 @@ SU <- function(x, y, base = exp(1)) {
 #'   IG(discrete_expression_gene_1,discrete_expression_gene_2)
 
 # Formula for Information Gain
-IG <- function(x, y, base = exp(1)) {
+IG <- function(x, y, base = 2) {
   if (is.character(x)) {
     x <- as.factor(x)
   }
