@@ -23,7 +23,7 @@ entropy <- function(x, base = exp(1)) {
 }
 
 # H(X,Y) - joint entropy
-entropy.joint <- function(x, y, base = exp(1)) {
+get_joint_entropy_for_vectors <- function(x, y, base = exp(1)) {
   if (!is.factor(x) || !is.factor(y)) {
     stop("For calculating the joint entropy, the vector x & y must be factors")
   }
@@ -44,7 +44,7 @@ entropy.cond <- function(x, y, base = exp(1)) {
   if (!is.factor(x) || !is.factor(y)) {
     stop("For calculating the conditional entropy, the vectors x & y must be factors")
   }
-  ent <- entropy.joint(x, y, base) - entropy(y, base)
+  ent <- get_joint_entropy_for_vectors(x, y, base) - entropy(y, base)
   if (is.na(ent)) {
     ent <- 0
   }
@@ -82,7 +82,7 @@ SU <- function(x, y, base = exp(1)) {
       Using a continuous(numeric) feature set leads to this error."
     )
   }
-  Ht <- entropy.joint(x, y, base)
+  Ht <- get_joint_entropy_for_vectors(x, y, base)
   Hx <- entropy(x, base)
   Hy <- entropy(y, base)
   #cat(Ht,' ',Hx,' ',Hy,'\n')
@@ -120,7 +120,7 @@ IG <- function(x, y, base = exp(1)) {
       Using a continuous(numeric) feature set leads to this error."
     )
   }
-  Ht <- entropy.joint(x, y, base)
+  Ht <- get_joint_entropy_for_vectors(x, y, base)
   Hx <- entropy(x, base)
   Hy <- entropy(y, base)
   # Returns the information gain for the pair

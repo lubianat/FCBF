@@ -2,7 +2,7 @@ library(FCBF)
 library(testthat)
 
 
-# Variables for testing: 
+####### Variables for testing:###### 
 
 factor_a = as.factor(c("OFF", "OFF","OFF","OFF","OFF",     "ON", "ON","ON", "ON", "ON"))
 factor_b = as.factor(c("OFF", "OFF","OFF","OFF","OFF",      "OFF","ON", "ON","ON", "ON"))
@@ -23,6 +23,8 @@ mock_expression_table = as.data.frame(t(mock_feature_table))
 
 
 mock_cells = c()
+
+
 for (n in 1:10){
   mock_cells = c(mock_cells,   paste("cell",n))
 }
@@ -32,6 +34,7 @@ colnames(mock_expression_table) = mock_cells
 
 mock_cell_class = as.factor(c(rep("monocyte", 5), rep("B cell", 5)))
 
+####### Tests ####### 
 
 test_that("fcbf works properly", {
   
@@ -58,7 +61,7 @@ test_that("base entropy functions work", {
   factor_a = as.factor(c("A", "A","B", "B"))
   factor_b = as.factor(c("A", "A","A", "B"))
   
-  expect_equivalent(entropy.joint (factor_a, factor_b ),
+  expect_equivalent(get_joint_entropy_for_vectors (factor_a, factor_b ),
                     1.039,
                     tolerance = 0.01)
   
