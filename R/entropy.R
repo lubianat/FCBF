@@ -88,7 +88,7 @@ get_IG_for_vector_pair <- function(x, y, base = 2) {
 }
 
 
-####### get_IG_for_vector_pair ####### 
+####### get_entropy_for_vector ####### 
 
 get_entropy_for_vector <- function(x, base = 2) {
   if (!is.factor(x)) {
@@ -106,6 +106,7 @@ get_entropy_for_vector <- function(x, base = 2) {
   ent
 }
 
+####### get_joint_entropy_for_vectors ####### 
 # H(X,Y) - joint entropy
 get_joint_entropy_for_vectors <- function(x, y, base = 2) {
   if (!is.factor(x) || !is.factor(y)) {
@@ -123,6 +124,7 @@ get_joint_entropy_for_vectors <- function(x, y, base = 2) {
   ent
 }
 
+####### get_conditional_entropy_for_vectors ####### 
 # H(X|Y) = H(X,Y) - H(Y) - conditional entropy
 get_conditional_entropy_for_vectors <- function(x, y, base = 2) {
   if (!is.factor(x) || !is.factor(y)) {
@@ -134,6 +136,8 @@ get_conditional_entropy_for_vectors <- function(x, y, base = 2) {
   }
   ent
 }
+
+
 
 
 
