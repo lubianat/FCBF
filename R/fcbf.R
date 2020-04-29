@@ -34,8 +34,8 @@ source('R/entropy.R')
 #'
 #' Obs: For gene expression, you will need to run discretize_exprs first
 #'
-#' @param x A table of features (samples in rows, variables in columns, and each observation in each cell)
-#' @param y A target vector, factor containing classes of the observations. Note: the
+#' @param feature_table A table of features (samples in rows, variables in columns, and each observation in each cell)
+#' @param target_vector A target vector, factor containing classes of the observations. Note: the
 #' observations must be in the same order as the parameter x
 #' @param thresh A threshold for the minimum correlation (as determined by symettrical uncertainty)
 #' between each variable and the class. Defaults to 0.25.
@@ -61,29 +61,54 @@ source('R/entropy.R')
 #'  fcbf(discrete_expression,target, n_genes = 100)
 
 fcbf <-
-  function(x,
-           y,
+  function(feature_table,
+           target_vector,
            thresh = 0.25,
            n_genes = NULL,
            verbose = FALSE,
            samples_in_rows = FALSE,
            balance_classes = FALSE) {
     
-    
-    
-    
-    if (!samples_in_rows) {
-      x <- t(x)
+    if (samples_in_rows == FALSE) {
+      feature_table <- t(feature_table)
     }
-    if (!balance_classes) {
-      x <- data.frame(x)
-      nvar <- ncol(x)
+
+    if (balance_classes == TRUE){
+      
+      instances_in_minor_class <- min(table(target_vector))
+      n_x <- as.data.frame(cbind(feature_table, target_vector))
+      
+      final_x <- data.frame(n_x[1, ])
+      final_x <- final_x[-1, ]
+      for (i in levels(as.factor(n_x[, ncol(n_x)]))) {
+        n_x_i <- n_x[n_x[, ncol(n_x)] == i, ]
+        n_x_i <-
+          n_x_i[sample(seq_len(length.out = nrow(n_x_i)), instances_in_minor_class), ]
+        final_x <- rbind(n_x_i, final_x)
+      }
+      
+      final_x$target_vector <- NULL
+      fcbf(t(final_x),
+           target_vector,
+           thresh,
+           verbose,
+           samples_in_rows,
+           balance_classes = FALSE)
+      
+    }
+    
+    else if (balance_classes == FALSE) {
+      
+      feature_table <- data.frame(feature_table)
+      nvar <- ncol(feature_table)
+      
       if (verbose) {
         message("Calculating symmetrical uncertainties")
       }
-      su_ic <- apply(x, 2, function(xx, yy) {
+      
+      su_ic <- apply(feature_table, 2, function(xx, yy) {
         get_SU_for_vector_pair(xx, yy)
-      }, y)
+      }, target_vector)
 
       if (length(n_genes)) {
         thresh <- sort(su_ic, decreasing = TRUE)[n_genes - 1]
@@ -127,8 +152,8 @@ fcbf <-
         if (!is.na(next_prime)) {
           while (TRUE) {
             prime_to_be_compared <- next_prime
-            su1 = get_SU_for_vector_pair(x[, first_prime], x[, next_prime])
-            su2 = get_SU_for_vector_pair(x[, next_prime], y)
+            su1 = get_SU_for_vector_pair(feature_table[, first_prime], feature_table[, next_prime])
+            su2 = get_SU_for_vector_pair(feature_table[, next_prime], target_vector)
             if (su1 > su2) {
               next_prime <- .get.next.elem(s_prime, next_prime)
               s_prime <-
@@ -159,32 +184,16 @@ fcbf <-
         }
       }
       if (length(s_prime) > 1) {
-        suvalues <- apply(x[, s_prime], 2, function(xx, yy) {
+        
+        suvalues <- apply(feature_table[, s_prime], 2, function(xx, yy) {
           get_SU_for_vector_pair(xx, yy)
-        }, y)
+        }, target_vector)
+        
         data.frame(index = s_prime, SU = suvalues)
+        
       } else {
-        data.frame(index = s_prime, SU = get_SU_for_vector_pair(x[, s_prime], y))
+        data.frame(index = s_prime, SU = get_SU_for_vector_pair(feature_table[, s_prime], target_vector))
       }
     }
-    else{
-      instances_in_minor_class <- min(table(y))
-      n_x <- as.data.frame(cbind(x, y))
-      final_x <- data.frame(n_x[1, ])
-      final_x <- final_x[-1, ]
-      for (i in levels(as.factor(n_x[, ncol(n_x)]))) {
-        n_x_i <- n_x[n_x[, ncol(n_x)] == i, ]
-        n_x_i <-
-          n_x_i[sample(seq_len(length.out = nrow(n_x_i)), instances_in_minor_class), ]
-        final_x <- rbind(n_x_i, final_x)
-      }
-      final_x$y <- NULL
-      fcbf(t(final_x),
-           y,
-           thresh,
-           verbose,
-           samples_in_rows,
-           balance_classes = FALSE)
 
-    }
   }

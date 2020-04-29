@@ -5,8 +5,8 @@
 \title{Fast Correlation Based Filter function.}
 \usage{
 fcbf(
-  x,
-  y,
+  feature_table,
+  target_vector,
   thresh = 0.25,
   n_genes = NULL,
   verbose = FALSE,
@@ -15,9 +15,9 @@ fcbf(
 )
 }
 \arguments{
-\item{x}{A table of features (samples in rows, variables in columns, and each observation in each cell)}
+\item{feature_table}{A table of features (samples in rows, variables in columns, and each observation in each cell)}
 
-\item{y}{A target vector, factor containing classes of the observations. Note: the
+\item{target_vector}{A target vector, factor containing classes of the observations. Note: the
 observations must be in the same order as the parameter x}
 
 \item{thresh}{A threshold for the minimum correlation (as determined by symettrical uncertainty)

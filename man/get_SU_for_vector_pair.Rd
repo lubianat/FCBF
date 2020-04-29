@@ -31,5 +31,5 @@ returning the score
  discrete_expression <- as.data.frame(discretize_exprs(exprs))
  discrete_expression_gene_1 <- discrete_expression$V1
  discrete_expression_gene_2 <- discrete_expression$V2
- SU(discrete_expression_gene_1,discrete_expression_gene_2)
+ get_SU_for_vector_pair(discrete_expression_gene_1,discrete_expression_gene_2)
 }

@@ -3,6 +3,7 @@
 \name{FCBF-deprecated}
 \alias{FCBF-deprecated}
 \alias{SU}
+\alias{IG}
 \title{FCBF-deprecated.r
  @title Deprecated functions in package \pkg{FCBF}.
  @description The functions listed below are deprecated and will be defunct in
@@ -11,6 +12,8 @@
   available at \code{help("-deprecated")}.}
 \usage{
 SU(x, y, base = 2)
+
+IG(x, y, base = 2)
 }
 \description{
 FCBF-deprecated.r
@@ -23,6 +26,11 @@ FCBF-deprecated.r
 \section{\code{SU}}{
 
 For \code{SU}, use \code{\link{get_SU_for_vector_pair}}.
+}
+
+\section{\code{IG}}{
+
+For \code{IG}, use \code{\link{get_IG_for_vector_pair}}.
 }
 
 \keyword{internal}
