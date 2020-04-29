@@ -6,7 +6,91 @@
 
 # H(X) - entropy
 
-get_entropy_for_vectors <- function(x, base = 2) {
+####### get_SU_for_vector_pair ####### 
+
+#'  get_SU_for_vector_pair
+
+#'  Formula for symetrical uncertainty as described in  Yu, L. and Liu, H. , 2003.
+#' This functions runs symmetrical uncertainty for two features,
+#' returning the score
+#'
+#' @param x A vector containing a categorical feature
+#' @param y A vector containing other categorical feature
+#' @param base The base used for the logaritmic function. The default is exp(1) (~2.718)
+#' @return A numerical value for the Symetrical Uncertainty score
+#' @export
+#' @examples
+#'  data(scDengue)
+#'  exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#'  discrete_expression <- as.data.frame(discretize_exprs(exprs))
+#'  discrete_expression_gene_1 <- discrete_expression$V1
+#'  discrete_expression_gene_2 <- discrete_expression$V2
+#'  get_SU_for_vector_pair(discrete_expression_gene_1,discrete_expression_gene_2)
+
+get_SU_for_vector_pair <- function(x, y, base = 2) {
+  if (is.character(x)) {
+    x <- as.factor(x)
+  }
+  y <- as.factor(y) 
+  if (!is.factor(x) || !is.factor(y)) {
+    stop(
+      "For calculating the symmetrical uncertainty, the vectors x & y must be factors.
+      Using a continuous(numeric) feature set leads to this error."
+    )
+  }
+  Ht <- get_IG_for_vector_pair(x, y, base)
+  Hx <- get_entropy_for_vector(x, base)
+  Hy <- get_entropy_for_vector(y, base)
+  #cat(Ht,' ',Hx,' ',Hy,'\n')
+  
+  # Returns the symmetrical uncertainty value for the vector pair
+  2 * (Hy + Hx - Ht) / (Hx + Hy)
+  
+}
+
+####### get_IG_for_vector_pair ####### 
+
+#'  Information Gain
+#' This functions runs Information Gain for two features,
+#' returning the score
+#'
+#' @param x A vector containing a categorical feature
+#' @param y A vector containing other categorical feature
+#' @param base The base used for the logaritmic function. The default is exp(1) (~2.718)
+#' @return A numerical value for the Information Gain score
+#' @export
+#' @examples
+#'   data(scDengue)
+#'   exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
+#'   discrete_expression <- as.data.frame(discretize_exprs(exprs))
+#'   discrete_expression_gene_1 <- discrete_expression$V1
+#'   discrete_expression_gene_2 <- discrete_expression$V2
+#'   get_IG_for_vector_pair(discrete_expression_gene_1,discrete_expression_gene_2)
+
+# Formula for Information Gain
+
+get_IG_for_vector_pair <- function(x, y, base = 2) {
+  if (is.character(x)) {
+    x <- as.factor(x)
+  }
+  if (!is.factor(x) || !is.factor(y)) {
+    stop(
+      "For calculating the information gain, the vectors x & y must be factors.
+      Using a continuous(numeric) feature set leads to this error."
+    )
+  }
+  Ht <- get_joint_entropy_for_vectors(x, y, base)
+  Hx <- get_entropy_for_vector(x, base)
+  Hy <- get_entropy_for_vector(y, base)
+  # Returns the information gain for the pair
+  IG <- (Hy + Hx - Ht)
+  IG
+}
+
+
+####### get_IG_for_vector_pair ####### 
+
+get_entropy_for_vector <- function(x, base = 2) {
   if (!is.factor(x)) {
     stop("For calculating the entropy, the vector must be a factor")
   }
@@ -44,89 +128,13 @@ get_conditional_entropy_for_vectors <- function(x, y, base = 2) {
   if (!is.factor(x) || !is.factor(y)) {
     stop("For calculating the conditional entropy, the vectors x & y must be factors")
   }
-  ent <- get_joint_entropy_for_vectors(x, y, base) - get_entropy_for_vectors(y, base)
+  ent <- get_joint_entropy_for_vectors(x, y, base) - get_entropy_for_vector(y, base)
   if (is.na(ent)) {
     ent <- 0
   }
   ent
 }
 
-
-#'  get_SU_for_vector_pair
-
-#'  Formula for symetrical uncertainty as described in  Yu, L. and Liu, H. , 2003.
-#' This functions runs symmetrical uncertainty for two features,
-#' returning the score
-#'
-#' @param x A vector containing a categorical feature
-#' @param y A vector containing other categorical feature
-#' @param base The base used for the logaritmic function. The default is exp(1) (~2.718)
-#' @return A numerical value for the Symetrical Uncertainty score
-#' @export
-#' @examples
-#'  data(scDengue)
-#'  exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
-#'  discrete_expression <- as.data.frame(discretize_exprs(exprs))
-#'  discrete_expression_gene_1 <- discrete_expression$V1
-#'  discrete_expression_gene_2 <- discrete_expression$V2
-#'  get_SU_for_vector_pair(discrete_expression_gene_1,discrete_expression_gene_2)
-
-get_SU_for_vector_pair <- function(x, y, base = 2) {
-  if (is.character(x)) {
-    x <- as.factor(x)
-  }
-  y <- as.factor(y) 
-  if (!is.factor(x) || !is.factor(y)) {
-    stop(
-      "For calculating the symmetrical uncertainty, the vectors x & y must be factors.
-      Using a continuous(numeric) feature set leads to this error."
-    )
-  }
-  Ht <- get_joint_entropy_for_vectors(x, y, base)
-  Hx <- get_entropy_for_vectors(x, base)
-  Hy <- get_entropy_for_vectors(y, base)
-  #cat(Ht,' ',Hx,' ',Hy,'\n')
-  
-  # Returns the symmetrical uncertainty value for the vector pair
-  2 * (Hy + Hx - Ht) / (Hx + Hy)
-  
-}
-
-#'  Information Gain
-#' This functions runs Information Gain for two features,
-#' returning the score
-#'
-#' @param x A vector containing a categorical feature
-#' @param y A vector containing other categorical feature
-#' @param base The base used for the logaritmic function. The default is exp(1) (~2.718)
-#' @return A numerical value for the Information Gain score
-#' @export
-#' @examples
-#'   data(scDengue)
-#'   exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
-#'   discrete_expression <- as.data.frame(discretize_exprs(exprs))
-#'   discrete_expression_gene_1 <- discrete_expression$V1
-#'   discrete_expression_gene_2 <- discrete_expression$V2
-#'   get_IG_for_vector_pair(discrete_expression_gene_1,discrete_expression_gene_2)
-
-# Formula for Information Gain
-get_IG_for_vector_pair <- function(x, y, base = 2) {
-  if (is.character(x)) {
-    x <- as.factor(x)
-  }
-  if (!is.factor(x) || !is.factor(y)) {
-    stop(
-      "For calculating the information gain, the vectors x & y must be factors.
-      Using a continuous(numeric) feature set leads to this error."
-    )
-  }
-  Ht <- get_joint_entropy_for_vectors(x, y, base)
-  Hx <- get_entropy_for_vectors(x, base)
-  Hy <- get_entropy_for_vectors(y, base)
-  # Returns the information gain for the pair
-  IG <- (Hy + Hx - Ht)
-  IG
-}
 
 
 

@@ -49,15 +49,15 @@ test_that("fcbf works properly", {
 
 test_that("base entropy functions work", {
   
-  expect_error(get_entropy_for_vectors(0.5))
-  expect_error(get_entropy_for_vectors(as.character(factor_a)))
+  expect_error(get_entropy_for_vector(0.5))
+  expect_error(get_entropy_for_vector(as.character(factor_a)))
   
   
   
-  expect_equal(get_entropy_for_vectors(factor_a), 
+  expect_equal(get_entropy_for_vector(factor_a), 
                     1, 
                     tolerance = 0.01)
-  expect_equivalent(get_entropy_for_vectors(factor_a, base = exp(1)), 
+  expect_equivalent(get_entropy_for_vector(factor_a, base = exp(1)), 
                     0.69,
                     tolerance = 0.01)
 
