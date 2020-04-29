@@ -38,10 +38,19 @@ mock_cell_class = as.factor(c(rep("monocyte", 5), rep("B cell", 5)))
 
 test_that("fcbf works properly", {
   
-  fcbf_output = fcbf(mock_expression_table, mock_cell_class, n_genes = 5)
+  fcbf_standard_output = fcbf(mock_expression_table, 
+                              mock_cell_class)
   
-  expect_equal(rownames(fcbf_output), c("A","B"))
-  expect_equal(fcbf_output["SU"][,1][1], 1)
+  expect_equal(rownames(fcbf_standard_output), c("A","B"))
+  expect_equal(fcbf_standard_output["SU"][,1][2], 0.618977)
+  
+  
+  fcbf_output_for_2_genes_in_filter = fcbf(mock_expression_table, 
+                                           mock_cell_class,
+                                           n_genes_selected_in_first_step = 2)
+  
+  expect_equal(nrow(fcbf_output_for_2_genes_in_filter), 1)
+  expect_equal(fcbf_output_for_2_genes_in_filter["SU"][,1][1], 1)
   
 })
 

@@ -37,14 +37,19 @@ source('R/entropy.R')
 #' @param feature_table A table of features (samples in rows, variables in columns, and each observation in each cell)
 #' @param target_vector A target vector, factor containing classes of the observations. Note: the
 #' observations must be in the same order as the parameter x
-#' @param thresh A threshold for the minimum correlation (as determined by symettrical uncertainty)
+#' 
+#' @param n_genes_selected_in_first_step Sets the number of genes to be selected in the first part of the algorithm. 
+#' The final number of selected genes is related to this paramenter, but depends on the correlation structure of the data.
+#' It overrides the minimum_su parameter. 
+#' If left unchanged, it defaults to NULL and the thresh parameter is used.
+#' @param minimum_su A threshold for the minimum correlation (as determined by symettrical uncertainty)
 #' between each variable and the class. Defaults to 0.25.
+#' 
 #' Note: this might drastically change the number of selected features.
+
+#' 
 #' @param samples_in_rows A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
 #' @param verbose Adds verbosity. Defaults to FALSE.
-#' @param n_genes Sets the number of genes to be selected in the first part of the algorithm.
-#' If left unchanged, it defaults to NULL and the thresh parameter is used.
-#' Caution: it overrides the thresh parameter altogether.
 #' @param balance_classes Balances number of instances in the target vector y by sampling the number of instances in the
 #' minor class from all others. The number of samplings is controlled by resampling_number. Defaults to FALSE.
 
@@ -58,13 +63,13 @@ source('R/entropy.R')
 #'  infection <- SummarizedExperiment::colData(scDengue)
 #'  target <- infection$infection
 #'  fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
-#'  fcbf(discrete_expression,target, n_genes = 100)
+#'  fcbf(discrete_expression,target, n_genes_selected_in_first_step = 100)
 
 fcbf <-
   function(feature_table,
            target_vector,
            thresh = 0.25,
-           n_genes = NULL,
+           n_genes_selected_in_first_step = NULL,
            verbose = FALSE,
            samples_in_rows = FALSE,
            balance_classes = FALSE) {
@@ -110,8 +115,8 @@ fcbf <-
         get_SU_for_vector_pair(xx, yy)
       }, target_vector)
 
-      if (length(n_genes)) {
-        thresh <- sort(su_ic, decreasing = TRUE)[n_genes - 1]
+      if (length(n_genes_selected_in_first_step)) {
+        thresh <- sort(su_ic, decreasing = TRUE)[n_genes_selected_in_first_step - 1]
       }
 
       s_prime <-
