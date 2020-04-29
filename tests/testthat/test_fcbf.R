@@ -65,7 +65,7 @@ test_that("base entropy functions work", {
                     1.039,
                     tolerance = 0.01)
   
-  expect_equivalent(entropy.cond(factor_a, factor_b ),
+  expect_equivalent(get_conditional_entropy_for_vectors(factor_a, factor_b ),
                     0.477,
                     tolerance = 0.01)
   

@@ -40,7 +40,7 @@ get_joint_entropy_for_vectors <- function(x, y, base = exp(1)) {
 }
 
 # H(X|Y) = H(X,Y) - H(Y) - conditional entropy
-entropy.cond <- function(x, y, base = exp(1)) {
+get_conditional_entropy_for_vectors <- function(x, y, base = exp(1)) {
   if (!is.factor(x) || !is.factor(y)) {
     stop("For calculating the conditional entropy, the vectors x & y must be factors")
   }
