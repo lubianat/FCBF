@@ -50,32 +50,42 @@ test_that("fcbf works properly", {
 test_that("base entropy functions work", {
   
   expect_error(get_entropy_for_vectors(0.5))
-  expect_error(get_entropy_for_vectors(as.character(c("A", "A","B", "B"))))
-  expect_equivalent(get_entropy_for_vectors(as.factor(c("A", "A","B", "B"))), 
-                    0.69, 
-                    tolerance = 0.01)
-  expect_equal(get_entropy_for_vectors(as.factor(c("A", "A","B", "B")), base =2), 
-                    1,
-                    tolerance = 0.01)
+  expect_error(get_entropy_for_vectors(as.character(factor_a)))
   
-  factor_a = as.factor(c("A", "A","B", "B"))
-  factor_b = as.factor(c("A", "A","A", "B"))
+  
+  
+  expect_equal(get_entropy_for_vectors(factor_a), 
+                    1, 
+                    tolerance = 0.01)
+  expect_equivalent(get_entropy_for_vectors(factor_a, base = exp(1)), 
+                    0.69,
+                    tolerance = 0.01)
+
   
   expect_equivalent(get_joint_entropy_for_vectors (factor_a, factor_b ),
-                    1.039,
+                    1.36,
                     tolerance = 0.01)
   
   expect_equivalent(get_conditional_entropy_for_vectors(factor_a, factor_b ),
-                    0.477,
+                    0.39,
+                    tolerance = 0.01)
+  expect_equivalent(get_conditional_entropy_for_vectors(factor_b, factor_a ),
+                    0.36,
                     tolerance = 0.01)
   
+  
+  expect_equal(SU(factor_a, factor_a), 
+                    1)
   expect_equivalent(SU(factor_a, factor_b), 
-                    0.34,
+                    0.619,
                     tolerance = 0.01)
   
+  
+  expect_equal(IG(factor_a, factor_a), 
+                    1)
   expect_equivalent(IG(factor_a, factor_b), 
-                    0.216,
-                    tolerance = 0.01)
+               0.61,
+               tolerance = 0.01)
   
   
 })
