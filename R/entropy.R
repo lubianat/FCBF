@@ -69,7 +69,7 @@ get_conditional_entropy_for_vectors <- function(x, y, base = 2) {
 #'  discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #'  discrete_expression_gene_1 <- discrete_expression$V1
 #'  discrete_expression_gene_2 <- discrete_expression$V2
-#'  SU(discrete_expression_gene_1,discrete_expression_gene_2)
+#'  get_SU_for_vector_pair(discrete_expression_gene_1,discrete_expression_gene_2)
 
 get_SU_for_vector_pair <- function(x, y, base = 2) {
   if (is.character(x)) {
@@ -107,10 +107,10 @@ get_SU_for_vector_pair <- function(x, y, base = 2) {
 #'   discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #'   discrete_expression_gene_1 <- discrete_expression$V1
 #'   discrete_expression_gene_2 <- discrete_expression$V2
-#'   IG(discrete_expression_gene_1,discrete_expression_gene_2)
+#'   get_IG_for_vector_pair(discrete_expression_gene_1,discrete_expression_gene_2)
 
 # Formula for Information Gain
-IG <- function(x, y, base = 2) {
+get_IG_for_vector_pair <- function(x, y, base = 2) {
   if (is.character(x)) {
     x <- as.factor(x)
   }
@@ -153,5 +153,29 @@ NULL
 #' @export
 SU <- function(x, y, base = 2) {
   .Deprecated("SU")
-  "My return value"
+  "SU function is no longer available"
 }
+
+
+#'  Information Gain
+#' This functions runs Information Gain for two features,
+#' returning the score
+#'
+#' @param x A vector containing a categorical feature
+#' @param y A vector containing other categorical feature
+#' @param base The base used for the logaritmic function. The default is exp(1) (~2.718)
+#' @return A numerical value for the Information Gain score
+#' @name IG-deprecated
+#' @seealso \code{\link{FCBF-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname FCBF-deprecated
+#' @section \code{IG}:
+#' For \code{IG}, use \code{\link{get_IG_for_vector_pair}}.
+#'
+IG <- function(x, y, base = 2) {
+  .Deprecated("IG")
+  "IG function is no longer available"
+}
+
