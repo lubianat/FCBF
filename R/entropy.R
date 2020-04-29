@@ -6,7 +6,7 @@
 
 # H(X) - entropy
 
-entropy <- function(x, base = exp(1)) {
+get_entropy_for_vectors <- function(x, base = exp(1)) {
   if (!is.factor(x)) {
     stop("For calculating the entropy, the vector must be a factor")
   }
@@ -44,7 +44,7 @@ get_conditional_entropy_for_vectors <- function(x, y, base = exp(1)) {
   if (!is.factor(x) || !is.factor(y)) {
     stop("For calculating the conditional entropy, the vectors x & y must be factors")
   }
-  ent <- get_joint_entropy_for_vectors(x, y, base) - entropy(y, base)
+  ent <- get_joint_entropy_for_vectors(x, y, base) - get_entropy_for_vectors(y, base)
   if (is.na(ent)) {
     ent <- 0
   }
@@ -83,8 +83,8 @@ SU <- function(x, y, base = exp(1)) {
     )
   }
   Ht <- get_joint_entropy_for_vectors(x, y, base)
-  Hx <- entropy(x, base)
-  Hy <- entropy(y, base)
+  Hx <- get_entropy_for_vectors(x, base)
+  Hy <- get_entropy_for_vectors(y, base)
   #cat(Ht,' ',Hx,' ',Hy,'\n')
 
   # Returns the symmetrical uncertainty value for the vector pair
@@ -121,8 +121,8 @@ IG <- function(x, y, base = exp(1)) {
     )
   }
   Ht <- get_joint_entropy_for_vectors(x, y, base)
-  Hx <- entropy(x, base)
-  Hy <- entropy(y, base)
+  Hx <- get_entropy_for_vectors(x, base)
+  Hy <- get_entropy_for_vectors(y, base)
   # Returns the information gain for the pair
   IG <- (Hy + Hx - Ht)
   IG
