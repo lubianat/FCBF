@@ -68,6 +68,10 @@ fcbf <-
            verbose = FALSE,
            samples_in_rows = FALSE,
            balance_classes = FALSE) {
+    
+    
+    
+    
     if (!samples_in_rows) {
       x <- t(x)
     }

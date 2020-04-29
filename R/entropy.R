@@ -38,7 +38,7 @@ get_SU_for_vector_pair <- function(x, y, base = 2) {
       Using a continuous(numeric) feature set leads to this error."
     )
   }
-  Ht <- get_IG_for_vector_pair(x, y, base)
+  Ht <- get_joint_entropy_for_vectors(x, y, base)
   Hx <- get_entropy_for_vector(x, base)
   Hy <- get_entropy_for_vector(y, base)
   #cat(Ht,' ',Hx,' ',Hy,'\n')
