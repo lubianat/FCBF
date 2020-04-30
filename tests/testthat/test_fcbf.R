@@ -23,13 +23,25 @@ mock_discrete_expression_table = as.data.frame(t(mock_feature_table))
 
 
 mock_cells = c()
-
-
 for (n in 1:10){
   mock_cells = c(mock_cells,   paste("cell",n))
 }
-
 colnames(mock_expression_table) = mock_cells
+
+counts_a = as.factor(c(rep(0,5), rep(10,5)))
+counts_b = as.factor(c(rep(0,3), rep(6,3), rep(10,4)))
+counts_c = as.factor(c(rep(0,6), rep(10,4)))
+counts_d = as.factor(rep(100, 10))
+
+mock_feature_table_counts = data.frame(A = counts_a, 
+                                       B = counts_b,
+                                       B2 = counts_b,
+                                       B3 = counts_b,
+                                       C = counts_c,
+                                       C2 = counts_c,
+                                       C3 = counts_c,
+                                       D = counts_d)
+
 
 
 mock_cell_class = as.factor(c(rep("monocyte", 5), rep("B cell", 5)))
@@ -142,21 +154,6 @@ test_that("discretization base functions work", {
   
 })
 
-
-counts_a = as.factor(c(rep(0,5), rep(10,5)))
-counts_b = as.factor(c(rep(0,3), rep(6,3), rep(10,4)))
-counts_c = as.factor(c(rep(0,6), rep(10,4)))
-counts_d = as.factor(rep(100, 10))
-
-mock_feature_table_counts = data.frame(A = counts_a, 
-                                B = counts_b,
-                                B2 = counts_b,
-                                B3 = counts_b,
-                                C = counts_c,
-                                C2 = counts_c,
-                                C3 = counts_c,
-                                D = counts_d)
-
 mock_expression_table_counts = data.frame(t(mock_feature_table_counts))
 
 test_that("discretization of expression table works",{
@@ -176,5 +173,23 @@ test_that("discretization of expression table works",{
   
   expected_d = as.factor(rep("high", 10))
   expect_equivalent(as.factor(t(discretized_exprs["D",])), expected_d)
+  
+})
+
+
+test_that("ranking functions works",{
+  
+  
+  ig_output =   get_ig(mock_expression_table, 
+                                mock_cell_class)
+  
+  expect_equal(rownames(ig_output )[4], "B3")
+  expect_equivalent(ig_output[,1][4], 0.6099865, tolerance = 0.01)
+  
+  su_output =   get_su(mock_expression_table, 
+                       mock_cell_class)
+  
+  expect_equal(rownames(ig_output )[4], "B3")
+  expect_equivalent(ig_output[,1][4], 0.6189770, tolerance = 0.01)
   
 })
