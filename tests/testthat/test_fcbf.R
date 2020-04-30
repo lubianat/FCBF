@@ -100,6 +100,49 @@ test_that("base entropy functions work", {
 })
 
 
-
+test_that("discretization functions work", {
+  
+  twenty_numeric_vector <- c(0,1,2,3,3,3,4,5,6,7,8,8,8,8,8,8,8,8,8,9)
+  
+  # Binary cutoff cor n_bin = 4 should be (0+9)/4 = 2.25
+  vw_expectation <- c(rep("low",3), rep("high", 17))
+  expect_equal(.split_vector_in_two_varying_width(twenty_numeric_vector,
+                                                  n_of_bins = 4), 
+               vw_expectation)
+  
+  # varying_width and min_max_cutoff are related. cutoff = 1/n_of_bins  
+  expect_equal(.split_vector_in_two_varying_width(twenty_numeric_vector,
+                                                  n_of_bins = 4), 
+               .split_vector_in_two_by_min_max_thresh(twenty_numeric_vector,
+                                                      cutoff = 1/4))
+  
+  expect_equal(.split_vector_in_two_varying_width(twenty_numeric_vector,
+                                                  n_of_bins = 6), 
+               .split_vector_in_two_by_min_max_thresh(twenty_numeric_vector,
+                                                      cutoff = 1/6))
+  
+  
+  # mean is 5.75
+  mean_expectation <- c(rep("low",8), rep("high", 12))
+  expect_equal(.split_vector_in_two_by_mean(twenty_numeric_vector), 
+               mean_expectation)
+  
+  
+  # mean is 7.5
+  median_expectation <- c(rep("low",10), rep("high", 10))
+  expect_equal(.split_vector_in_two_by_median(twenty_numeric_vector), 
+               median_expectation)
+  
+  
+  # I was not able to set a test for kmwans. Results are not stable.
+  expect_vector(.split_vector_by_kmeans(twenty_numeric_vector, centers = 2))
+  
+  # mean = 5.75, sd = 2.844663
+  mean_sd_expectation <- c(rep("low",3), rep("medium",16), rep("high", 1))
+  expect_vector(.split_vector_in_three_by_mean_sd(twenty_numeric_vector))
+  
+  
+  
+})
 
 

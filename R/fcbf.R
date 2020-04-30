@@ -116,7 +116,6 @@ fcbf <-
           get_SU_for_vector_pair(xx, yy)
         }, target_vector)
       
-      
       if (length(n_genes_selected_in_first_step)) {
         minimum_su <-
           sort(su_values_for_features_with_regards_to_class,
