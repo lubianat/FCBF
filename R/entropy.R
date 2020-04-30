@@ -164,7 +164,7 @@ NULL
 #'
 #' @export
 SU <- function(x, y, base = 2) {
-  .Deprecated("SU")
+  .Deprecated("get_SU_for_vector_pair")
   "SU function is no longer available"
 }
 
@@ -187,7 +187,7 @@ NULL
 #' For \code{IG}, use \code{\link{get_IG_for_vector_pair}}.
 #'
 IG <- function(x, y, base = 2) {
-  .Deprecated("IG")
+  .Deprecated("get_IG_for_vector_pair")
   "IG function is no longer available"
 }
 
