@@ -26,7 +26,7 @@ mock_cells = c()
 for (n in 1:10){
   mock_cells = c(mock_cells,   paste("cell",n))
 }
-colnames(mock_expression_table) = mock_cells
+colnames(mock_discrete_expression_table) = mock_cells
 
 counts_a = as.factor(c(rep(0,5), rep(10,5)))
 counts_b = as.factor(c(rep(0,3), rep(6,3), rep(10,4)))
@@ -50,14 +50,14 @@ mock_cell_class = as.factor(c(rep("monocyte", 5), rep("B cell", 5)))
 
 test_that("fcbf works properly", {
   
-  fcbf_standard_output = fcbf(mock_expression_table, 
+  fcbf_standard_output = fcbf(mock_discrete_expression_table, 
                               mock_cell_class)
   
   expect_equal(rownames(fcbf_standard_output), c("A","B"))
   expect_equal(fcbf_standard_output["SU"][,1][2], 0.618977)
   
   
-  fcbf_output_for_2_genes_in_filter = fcbf(mock_expression_table, 
+  fcbf_output_for_2_genes_in_filter = fcbf(mock_discrete_expression_table, 
                                            mock_cell_class,
                                            n_genes_selected_in_first_step = 2)
   
@@ -154,12 +154,12 @@ test_that("discretization base functions work", {
   
 })
 
-mock_expression_table_counts = data.frame(t(mock_feature_table_counts))
+mock_discrete_expression_table_counts = data.frame(t(mock_feature_table_counts))
 
 test_that("discretization of expression table works",{
   
   
-  discretized_exprs = discretize_exprs(mock_expression_table_counts, number_of_bins = 3,
+  discretized_exprs = discretize_exprs(mock_discrete_expression_table_counts, number_of_bins = 3,
                                        method = "varying_width")
   
   expected_a = as.factor(c(rep("low",5), rep("high", 5)))
@@ -180,16 +180,23 @@ test_that("discretization of expression table works",{
 test_that("ranking functions works",{
   
   
-  ig_output =   get_ig(mock_expression_table, 
+  ig_output =   get_ig_for_feature_table_and_vector(mock_discrete_expression_table, 
                                 mock_cell_class)
   
   expect_equal(rownames(ig_output )[4], "B3")
   expect_equivalent(ig_output[,1][4], 0.6099865, tolerance = 0.01)
   
-  su_output =   get_su(mock_expression_table, 
+  su_output =   get_su_for_feature_table_and_vector(mock_discrete_expression_table, 
                        mock_cell_class)
   
   expect_equal(rownames(ig_output )[4], "B3")
   expect_equivalent(ig_output[,1][4], 0.6189770, tolerance = 0.01)
   
+})
+
+
+test_that("plotting works",{
+  
+  plot <-su_plot(mock_discrete_expression_table, mock_cell_class)
+  expect_equal(class(plot)[1], "gtable")
 })

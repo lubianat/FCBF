@@ -19,7 +19,7 @@
 #' target <- infection$infection
 #' su_values <- get_su(discrete_expression[,],target[])
 #' su_values[1:10,]
-get_su <- function(feature_table, target_vector, samples_in_rows = FALSE, bar_of_progress = FALSE) {
+get_su_for_feature_table_and_vector <- function(feature_table, target_vector, samples_in_rows = FALSE, bar_of_progress = FALSE) {
   if (!samples_in_rows){
    feature_table <- t(feature_table)
   }
@@ -66,7 +66,7 @@ NULL
 
 
 
-get_ig <- function(feature_table, target_vector) {
+get_ig_for_feature_table_and_vector <- function(feature_table, target_vector) {
  feature_table <- t(feature_table)
  feature_table <- data.frame(feature_table)
   ig_values_for_features_with_regards_to_class <- apply(feature_table, 2, function(feature_vector, target_vector) {
@@ -74,5 +74,54 @@ get_ig <- function(feature_table, target_vector) {
   }, target_vector)
   as.data.frame(sort(ig_values_for_features_with_regards_to_class, decreasing = TRUE))
 }
+
+
+####### Deprecated functions ########
+
+#'  Symmetrical Uncertainty diagnostic
+#'
+#' This functions runs symmetrical uncertainty for a feature table and a class, returning
+#' the scores of symmetrical uncertainty for all features
+#'
+#' @param x A table of features (observations in rows, variables in columns)
+#' @param y A target vector, factor containing classes of the observations. Note: the
+#' observations must be in the same order as the parameter x.
+#' @param samples_in_rows A flag for the case in which samples are in rows and variables/genes in columns. Defaults to FALSE.
+#' @param bar_of_progress A flag to show progress. Defaults to FALSE.
+#' @return A dataframe containing the SU values for each feature
+#' @name get_su-deprecated
+#' @seealso \code{\link{FCBF-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname FCBF-deprecated
+#' @section \code{get_su}:
+#' For \code{get_su}, use \code{\link{get_su_for_feature_table_and_vector}}.
+#'
+#' @export
+get_su <- function(x, y) {
+  .Deprecated("get_su_for_feature_table_and_vector")
+  "get_su function is no longer available"
+}
+
+
+#'  Get information gain
+#'
+#' This functions runs information gain for a feature table and a class, returning
+#' the scores of information gain for all features
+#' @param x A table of features (observations in rows, variables in columns)
+#' @param y A target vector, factor containing classes of the observations. Note: the
+#' observations must be in the same order as the parameter x.
+#' @return A dataframe containing the SU values for each feature
+#' @rdname FCBF-deprecated
+#' @section \code{get_su}:
+#' For \code{get_su}, use \code{\link{get_ig_for_feature_table_and_vector}}.
+#'
+#' @export
+get_ig <- function(x, y) {
+  .Deprecated("get_ig_for_feature_table_and_vector")
+  "get_ig function is no longer available"
+}
+
 
 

@@ -7,7 +7,7 @@
 fcbf(
   feature_table,
   target_vector,
-  thresh = 0.25,
+  minimum_su = 0.25,
   n_genes_selected_in_first_step = NULL,
   verbose = FALSE,
   samples_in_rows = FALSE,
@@ -20,10 +20,15 @@ fcbf(
 \item{target_vector}{A target vector, factor containing classes of the observations. Note: the
 observations must be in the same order as the parameter x}
 
-\item{n_genes_selected_in_first_step}{Sets the number of genes to be selected in the first part of the algorithm. 
+\item{minimum_su}{A minimum_suold for the minimum correlation (as determined by symettrical uncertainty)
+between each variable and the class. Defaults to 0.25.
+
+Note: this might drastically change the number of selected features.}
+
+\item{n_genes_selected_in_first_step}{Sets the number of genes to be selected in the first part of the algorithm.
 The final number of selected genes is related to this paramenter, but depends on the correlation structure of the data.
-It overrides the minimum_su parameter. 
-If left unchanged, it defaults to NULL and the thresh parameter is used.}
+It overrides the minimum_su parameter.
+If left unchanged, it defaults to NULL and the minimum_su parameter is used.}
 
 \item{verbose}{Adds verbosity. Defaults to FALSE.}
 
@@ -31,11 +36,6 @@ If left unchanged, it defaults to NULL and the thresh parameter is used.}
 
 \item{balance_classes}{Balances number of instances in the target vector y by sampling the number of instances in the
 minor class from all others. The number of samplings is controlled by resampling_number. Defaults to FALSE.}
-
-\item{minimum_su}{A threshold for the minimum correlation (as determined by symettrical uncertainty)
-between each variable and the class. Defaults to 0.25.
-
-Note: this might drastically change the number of selected features.}
 }
 \value{
 Returns a data frame with the selected features index (first row) and their symmetrical uncertainty values regarding the class (second row). Variable names are present in rownames
@@ -58,6 +58,6 @@ Obs: For gene expression, you will need to run discretize_exprs first
  head(discrete_expression[,1:4])
  infection <- SummarizedExperiment::colData(scDengue)
  target <- infection$infection
- fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+ fcbf(discrete_expression,target, minimum_su = 0.05, verbose = TRUE)
  fcbf(discrete_expression,target, n_genes_selected_in_first_step = 100)
 }

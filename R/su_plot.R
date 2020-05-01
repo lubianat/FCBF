@@ -25,17 +25,17 @@ NULL
 su_plot <- function(x, y) {
   x <- t(x)
   x <- data.frame(x)
-  su_ic <- apply(x, 2, function(xx, yy) {
-    SU(xx, yy)
+  su_values_for_features_with_regards_to_class <- apply(x, 2, function(xx, yy) {
+    get_SU_for_vector_pair(xx, yy)
   }, y)
-  su_ic <- as.data.frame(su_ic)
-  p1 <- ggplot(su_ic, (aes(x = su_ic))) +
+  su_values_for_features_with_regards_to_class <- as.data.frame(su_values_for_features_with_regards_to_class)
+  p1 <- ggplot(su_values_for_features_with_regards_to_class, (aes(x = su_values_for_features_with_regards_to_class))) +
     geom_histogram(binwidth = 0.008) +
     xlab('Correlation by Symmetrical Uncertainty to target') +
     ylab('Variable counts') +
     ggtitle('Histogram of SU values of each variable to the target classes')
 
-  p2 <- ggplot(su_ic, (aes(y = su_ic))) +
+  p2 <- ggplot(su_values_for_features_with_regards_to_class, (aes(y = su_values_for_features_with_regards_to_class))) +
     geom_boxplot(outlier.alpha = 0.5) +
     ylab('Correlation by Symmetrical Uncertainty to target') +
     ggtitle('Boxplot of SU values of each variable to the target classes') +
