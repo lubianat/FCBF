@@ -7,8 +7,8 @@ NULL
 #'
 #' This functions runs symmetrical uncertainty for a feature table and a class, returning
 #' an histogram of the scores
-#' @param x A table of features (observations in rows, variables in columns)
-#' @param y A target vector, factor containing classes of the observations. Note: the
+#' @param feature_table A table of features (observations in rows, variables in columns)
+#' @param target_vector A target vector, factor containing classes of the observations. Note: the
 #' observations must be in the same order as the parameter x.
 #' @return Plots an histogram of symmetrical uncertainty values regarding the class.
 #' @export
@@ -22,12 +22,12 @@ NULL
 
 
 
-su_plot <- function(x, y) {
-  x <- t(x)
-  x <- data.frame(x)
-  su_values_for_features_with_regards_to_class <- apply(x, 2, function(xx, yy) {
-    get_SU_for_vector_pair(xx, yy)
-  }, y)
+su_plot <- function(feature_table, target_vector) {
+  feature_table <- t(feature_table)
+  feature_table <- data.frame(feature_table)
+  su_values_for_features_with_regards_to_class <- apply(feature_table, 2, function(feature_vector, target_vector) {
+    get_SU_for_vector_pair(feature_vector, target_vector)
+  }, target_vector)
   su_values_for_features_with_regards_to_class <- as.data.frame(su_values_for_features_with_regards_to_class)
   p1 <- ggplot(su_values_for_features_with_regards_to_class, (aes(x = su_values_for_features_with_regards_to_class))) +
     geom_histogram(binwidth = 0.008) +

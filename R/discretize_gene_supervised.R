@@ -63,7 +63,7 @@ discretize_gene_supervised <-
         f <- get(disc)
         for (param in vw_params) {
           discretized_gene <- f(gene, param)
-          su_now <- SU(discretized_gene, target)
+          su_now <- get_SU_for_vector_pair(discretized_gene, target)
           #print(paste(su_now,disc))
           if (su_now > su_top) {
             su_top <- su_now
@@ -76,7 +76,7 @@ discretize_gene_supervised <-
         f <- get(disc)
         for (param in kmeans_centers) {
           discretized_gene <- f(gene, param)
-          su_now <- SU(discretized_gene, target)
+          su_now <- get_SU_for_vector_pair(discretized_gene, target)
           #print(paste(su_now,disc))
           if (su_now > su_top) {
             su_top <- su_now
@@ -89,7 +89,7 @@ discretize_gene_supervised <-
         f <- get(disc)
         for (param in sd_alpha) {
           discretized_gene <- f(gene, param)
-          su_now <- SU(discretized_gene, target)
+          su_now <- get_SU_for_vector_pair(discretized_gene, target)
           #print(paste(su_now,disc))
           if (su_now > su_top) {
             su_top <- su_now
@@ -100,7 +100,7 @@ discretize_gene_supervised <-
       } else {
         f <- get(disc)
         discretized_gene <- f(gene)
-        su_now <- SU(discretized_gene, target)
+        su_now <- get_SU_for_vector_pair(discretized_gene, target)
         #print(paste(su_now,disc))
         if (su_now > su_top) {
           su_top <- su_now
