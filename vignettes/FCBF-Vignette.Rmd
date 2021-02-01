@@ -119,7 +119,7 @@ Seems like 0.05 is something reasonable for this dataset. This changes, of cours
 
 ```{r}
 
-fcbf_features <- fcbf(discrete_expression, target, thresh = 0.05, verbose = TRUE)
+fcbf_features <- fcbf(discrete_expression, target, minimum_su = 0.05, verbose = TRUE)
 
 ```
 In the end, this process has selected a very low number of variables in comparison with the original dataset. 
