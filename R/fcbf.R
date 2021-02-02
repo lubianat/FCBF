@@ -77,6 +77,8 @@ fcbf <-
       feature_table <- t(feature_table)
     }
     
+    print(paste('Number of features features = ', ncol(feature_table)))
+    
     # Resampling of the feature table to balance class weights and recursive call to FCBF
     if (balance_classes == TRUE) {
       instances_in_minor_class <- min(table(target_vector))
@@ -203,7 +205,9 @@ fcbf <-
           get_SU_for_vector_pair(xx, yy)
         }, target_vector)
         
+        print(paste('Number of final features = ', length(s_prime)))
         return(data.frame(index = s_prime, SU = suvalues))
+
         
       } else {
         return(data.frame(index = s_prime,
