@@ -203,11 +203,11 @@ fcbf <-
           get_SU_for_vector_pair(xx, yy)
         }, target_vector)
         
-        data.frame(index = s_prime, SU = suvalues)
+        return(data.frame(index = s_prime, SU = suvalues))
         
       } else {
-        data.frame(index = s_prime,
-                   SU = get_SU_for_vector_pair(feature_table[, s_prime], target_vector))
+        return(data.frame(index = s_prime,
+                   SU = get_SU_for_vector_pair(feature_table[, s_prime], target_vector)))
       }
     }
     
