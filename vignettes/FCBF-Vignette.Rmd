@@ -25,30 +25,36 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-The FCBF package is a R implementation of an algorithm developed by Yu and Liu, 2003 : Feature Selection for High-Dimensional Data: A Fast Correlation-Based Filter Solution. 
+The FCBF package is an R implementation of an algorithm developed by Yu and Liu, 2003 : Feature Selection for High-Dimensional Data: A Fast Correlation-Based Filter Solution. 
 
-The algorithm described in the article and implemented here uses the idea of "predominant correlation". 
-It selects features in a classifier-independent manner, selecting features with high correlation with the
-target variable, but little correlation with other variables. Notably, the correlation used here is not
-the classical Pearson or Spearman correlations, but Symmetrical Uncertainty (SU). 
+The algorithm uses the idea of "predominant correlation". 
+It selects features with high correlation with the target and little correlation with other variables.
+It does not use the classical Pearson or Spearman correlations, but a metric called Symmetrical Uncertainty (SU). 
 
-The symmetrical uncertainty is based on information theory, drawing from the concepts of Shannon entropy and information gain. A detailed description is outside the scope of this vignette, but these details are described
-comprehensively in the  Yu and Liu, 2003. 
+The SU is based on information theory, drawing from the concepts of Shannon entropy and information gain.
+A detailed description is outside the scope of this vignette, but these details are described
+comprehensively in the [Yu and Liu, 2003 article](https://www.aaai.org/Papers/ICML/2003/ICML03-111.pdf). 
 
-Initially, the algorithm selects features correlated above a given threshold by SU with the class variable. After this initial filtering, it detects predominant correlations of features with the class. The definition is that, for a predominant feature "X", no other feature is more correlated to "X" than "X"" is to the class.
+The algorithm selects features correlated with the target above a given SU threshold. 
+It then detects _predominant correlations_ of features with the target.
+A _predominant correlation_ occurs when for a feature "X", no other feature is more correlated to "X" than "X" is to the target.
 
-The features more correlated with X than with the class are then tested, and either X, or any other feature from this correlation group, emerges as the predominant correlation feature. Once more, the detailed description is available in Yu and Liu, 2003.
+The features are ranked, and we start the iteration with X, the best ranked. 
+The features more correlated with X than with the target are removed.
+Any features less correlated with X than with the target are kept. 
+The algorithm then proceeds to the 2nd best ranked feature on the trimmed list.
+Once more, the detailed description is available in Yu and Liu, 2003.
 
 # Usage 
 
 ## Discretizing gene expression
 
 The first step to use FCBF is to install FCBF and load the sample data.
-Expression data from single macrophages is used as an example of how to apply
+Expression data from single macrophages is used here as an example of how to apply
 the method to expression data.
 
 ```{r, eval = FALSE}
-BiocManager::install("FCBF")
+BiocManager::install("FCBF", version="devel")
 ```
 ```{r}
 library("FCBF")
@@ -60,31 +66,28 @@ head(exprs[,1:4])
 ```
 
 This normalized single cell expression can be used in machine learning (ML) models to obtain classifiers for
-dengue x control macrophage. One of the ideas behind the ML approach to RNA-Seq data is to use features that are important for classification as biomarkers, for experimental characterization and inference of involved pathways. Overfitting and extensive computational time are, thus big problems that feature selection intends to help.
+that separate dengue macrophages from control macrophage. 
 
-For the feature selection approach implemented here, the gene expression has to be discretized, as the entropy concept behind the symmetrical uncertainty is built upon discrete classes.
+To avoid overfitting and lengthy running times, we select features that capture the relations that we need. 
 
-There is no consensus of the optimal way of discretizing gene expression, and this is even more true to single cell RNA-Seq. The \code{discretize_exprs} function simply gets the range of expression (min to max) for each gene and assigns the first third the label of "low" and, to the other two, the label of "high". 
+For FCBF, the gene expression has to be discretized. 
+The entropy concept behind the symmetrical uncertainty is built upon discrete classes.
+
+There is no consensus of the optimal way of discretizing gene expression.
+The \code{discretize_exprs} function simply gets the range of expression (min to max) for each gene and, based on a threshold assigns the first bit of the genes the label of "low" and, to the other bit, the label of "high". 
 In this way, all the zeros and low expression values are assigned the label "low" in a gene-dependent manner.
 
-Notably, this step is only done for variable selection. When you fit machine learning models with those variables, you can still use the original, continuous, numeric, features. 
-
-
 ```{r}
-
-# discretize expression data
 discrete_expression <- as.data.frame(discretize_exprs(exprs))
-
 head(discrete_expression[,1:4])
-
-
-
 ```
 
 
 ## Selecting features
 
-The filter approaches as FCBF do not target a specific machine learning model. However, they are supervised approaches, requiring you to give a target variable as input. In this case, we have two classes: dengue infected and not infected macrophages.
+FCBF does not target a specific machine learning model. 
+It is, nevertheless, a supervised approaches, and requires you to give a target variable as input.
+In our example, we have two classes: dengue infected and not infected macrophages.
 
 ```{r}
 
@@ -97,7 +100,9 @@ infection <- SummarizedExperiment::colData(scDengue)
 target <- as.factor(infection$infection)
 ```
 
-Having a class variable and a discrete, categorical feature table, we can run  the function fcbf. The code as follows would run for a minute or two and generate an error. 
+Now we have a class variable and a discrete, categorical feature table.
+That means we can run the function `fcbf`.
+The code as follows would run for a minute or two and generate an error. 
 
 ```{r}
 # you only need to run that if you want to see the error for yourself
@@ -108,41 +113,54 @@ As you can see, we get an error.
 
 \code{"Error in fcbf(discrete_expression, target, verbose = TRUE) : No prospective features for this threshold level. Threshold: 0.25"}
 
-That is because the built-in threshold for the SU, 0.25, is too high for this data set. You can use the function \code{su_plot} to decide for yourself which threshold is the best. In this way you can see the distribution of correlations (as calculated from symmetrical uncertainty) for each variable with the target classes. 
+That is because the built-in threshold for the SU, 0.25, is too high for this data set. 
+You can use the function \code{su_plot} to decide for yourself which threshold is the best. 
+In this way you can see the distribution of correlations (as calculated from symmetrical uncertainty) for each variable with the target classes. 
 
 
 ```{r}
 su_plot(discrete_expression,target)
 ```
 
-Seems like 0.05 is something reasonable for this dataset. This changes, of course, the number of features selected. A lower threshold will explore more features, but they will have less relation to the target variable. Let's run it again with the new threshold.
+Seems like 0.05 is something reasonable for this dataset. 
+This changes, of course, the number of features selected. 
+A lower threshold will explore more features, but they will have less relation to the target variable. 
+Let's run it again with the new threshold.
 
 ```{r}
 
-fcbf_features <- fcbf(discrete_expression, target, minimum_su = 0.05, verbose = TRUE)
+fcbf_features <- fcbf(discrete_expression, target, minimum_su = 0.05)
 
 ```
-In the end, this process has selected a very low number of variables in comparison with the original dataset. 
-Now we should see if they are really useful for classification. First, we will get a 'mini feature table', just with the selected variables and a table for comparison, with the 100 most variable genes
+In the end, this process has selected a very low number of variables in comparison with the original dataset.  
+From 19541 features, we ended with a lean set of 70. 
+Now we should see if they are really useful for classification. 
+
+First, we will compare two subsets of the original datasets:
+- expression of the FCBF genes 
+- expression of the 100 most variable genes
+
+For each case we are using the original, non-discretized dataframe. 
+The discretization was only used for FCBF.
 
 ```{r}
-mini_single_cell_dengue_exprs <- exprs[fcbf_features$index,]
+fcbf_table <- exprs[fcbf_features$index,]
 
-vars <- sort(apply(exprs, 1, var, na.rm = TRUE), decreasing = TRUE)
-data_top_100_vars <- exprs[names(vars)[1:100], ]
+high_variance_genes <- sort(apply(exprs, 1, var, na.rm = TRUE), decreasing = TRUE)
+variance_table <- exprs[names(high_variance_genes)[1:100], ]
 
 ```
 
-The top 100 most variable is a quick-and-dirty unsupervised feature selection. Nevertheless, we can use it to see if the genes selected are really better at classification tasks. With the packages 'caret' and 'mlbench' we can check if that is true.
-
-
+The variance filter is a quick-and-dirty unsupervised feature selection. 
+Nevertheless, we can use it as a benchmark. 
+(as a side note, many single-cell workflows use variance as a filter).
 
 ```{r}
 
 #first transpose the tables and make datasets as caret likes them
 
-dataset_fcbf <- cbind(as.data.frame(t(mini_single_cell_dengue_exprs)),target_variable = target)
-dataset_100_var <- cbind(as.data.frame(t(data_top_100_vars)),target_variable = target)
+dataset_fcbf <- cbind(as.data.frame(t(fcbf_table)),target_variable = target)
+dataset_100_var <- cbind(as.data.frame(t(variance_table)),target_variable = target)
 
 library('caret')
 library('mlbench')
@@ -151,7 +169,10 @@ control <- trainControl(method="cv", number=5, classProbs=TRUE, summaryFunction=
 
 ```
 
-In the code above we created a plan to test the classifiers by 5-fold cross validation. Any classifier can be used, but for illustration, here we will use the very popular radial svm. As metric for comparison we will use the area-under-the-curve (AUC) of the receiver operating characteristic (ROC) curve :
+In the code above we created a plan to test the classifiers by 5-fold cross validation
+
+Any classifier can be used, but for illustration, here we will use the very popular radial svm. 
+As metric for comparison we will use the area-under-the-curve (AUC) of the receiver operating characteristic (ROC) curve :
 
 ```{r}
 
@@ -184,20 +205,27 @@ cat(paste0("For top 100 var: \n",
 ```
 
 
-As we can see, the selected variables gave rise to a better SVM model than selecting the top 100 variables (as measured by the area under the curve of the receiver-operating characteristic curve. Notably, running the svm radial with the  full exprs set gives an error of the sort : Error: protect(): "protection stack overflow". 
+As we can see, the selected variables gave rise to a better SVM model than selecting the top 100 variables (as measured by the area under the curve of the receiver-operating characteristic curve. 
 
-The multiplicity of infection (MOI) of the cells was relatively low (1 virus/cell), so it is expected that some cells were not infected. Thus, due to this overlap o f healthy cells in both groups, the groups are probably non-separable. In any case, FCBF seems to do a reasonably good job at selecting variables. 
+Notably, running the svm radial with the  full exprs set gives an error of the sort : Error: protect(): "protection stack overflow". 
+
+The multiplicity of infection (MOI) of the cells was relatively low (1 virus/cell), so maybe that some cells were not infected. 
+In any case, FCBF seems to do a reasonably good job at selecting variables, and all the metrics are better than the "100 most variable" benchmark. 
 
 ## Final remarks
 
-Even though tools are available for feature selection in packages such as FSelector (https://cran.r-project.org/web/packages/FSelector/FSelector.pdf), up to date, there were no easy implementations in R for FCBF. The article describing FCBF has more than 1800 citations, but almost none from the biomedical community. 
+Even though tools are available for feature selection in packages such as FSelector (https://cran.r-project.org/web/packages/FSelector/FSelector.pdf), up to date, there were no easy implementations in R for FCBF. 
+The article describing FCBF has more than 1800 citations, but almost none from the biomedical community. 
 
-We expect that by carefully implementing and documenting FCBF in R, this package might improve usage of filter-based feature selection approaches that aim at reducing redundancy among selected features. Other tools similar to FCBF are available in Weka (https://www.cs.waikato.ac.nz/ml/weka/) and Python/scikit learn (http://featureselection.asu.edu/). A recent good review, for those interested in going deeper, is the following ref:
+We expect that by carefully implementing and documenting FCBF in R, this package might improve usage of filter-based feature selection approaches that aim at reducing redundancy among selected features. 
+Other tools similar to FCBF are available in Weka (https://www.cs.waikato.ac.nz/ml/weka/) and Python/scikit learn (http://featureselection.asu.edu/). 
+
+A recent good review, for those interested in going deeper, is the following:
 
 Li, J., Cheng, K., Wang, S., Morstatter, F., Trevino, R. P., Tang, J., & Liu, H. (2017). Feature selection: A data perspective. ACM Computing Surveys (CSUR), 50(6), 94.
 
-
-We note that other techniques based on predominant correlation might be better depending on the dataset and the objectives. FCBF provides a interpretable and robust option, with results that are generally good.
+We note that other techniques based on predominant correlation might be better depending on the dataset and the objectives. 
+FCBF provides an interpretable and robust option, with results that are generally good.
 
 The application of filter-based feature selections for big data analysis in the biomedical sciences can have not only a direct effect in classification efficiency but might lead to interesting biological interpretations and possible quick identification of biomarkers. 
 
