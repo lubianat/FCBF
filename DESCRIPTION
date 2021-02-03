@@ -1,7 +1,7 @@
 Package: FCBF
 Type: Package
 Title: Fast Correlation Based Filter for Feature Selection
-Version: 1.9.1
+Version: 1.9.99
 Authors@R: c(person("Tiago", "Lubiana", email = "tiago.lubiana.alves@usp.br",
   role = c("aut", "cre")), person("Helder", "Nakaya", email = "hnkaya@usp.br",
   role = c("aut","ths")))
@@ -20,4 +20,4 @@ Suggests: caret, mlbench, SingleCellExperiment,
     BiocManager
 biocViews: GeneTarget, FeatureExtraction, Classification, GeneExpression, SingleCell, ImmunoOncology
 VignetteBuilder: knitr
-Depends: R (>= 3.6)
+Depends: R (>= 4.1)
