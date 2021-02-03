@@ -14,6 +14,6 @@ in the first step, instead of a threshold.
 * Bug fix to conform to R 4.0.0
 
 
-# FCBF  1.9.1
+# FCBF  1.99.0
 
-* Refactored code in large scale for clarity of usage and better maintenance. Functions were deprecated, and name of arguments were changed.  
+* Refactored code in large scale for clarity of usage and better maintenance. Some functions were deprecated, and name of arguments were changed.  
