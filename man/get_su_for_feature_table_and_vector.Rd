@@ -34,6 +34,6 @@ exprs <- SummarizedExperiment::assay(scDengue, 'logcounts')
 discrete_expression <- as.data.frame(discretize_exprs(exprs))
 infection <- SummarizedExperiment::colData(scDengue)
 target <- infection$infection
-su_values <- get_su(discrete_expression[,],target[])
+su_values <- get_su_for_feature_table_and_vector(discrete_expression[,],target[])
 su_values[1:10,]
 }

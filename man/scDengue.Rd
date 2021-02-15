@@ -32,7 +32,7 @@ target <- infection$infection
 discrete_expression <- as.data.frame(discretize_exprs(exprs))
 fcbf_features <- fcbf(discrete_expression,
                               target,
-                              thresh = 0.05,
+                              minimum_su = 0.05,
                               verbose = TRUE)
 }
 \references{

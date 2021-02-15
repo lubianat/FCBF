@@ -28,5 +28,5 @@ exprs <- exprs [1:200, 1:120]
 infection <- SummarizedExperiment::colData(scDengue)
 target <- infection$infection
 discrete_expression <- as.data.frame(discretize_exprs_supervised(exprs,target))
-fcbf(discrete_expression,target, thresh = 0.05, verbose = TRUE)
+fcbf(discrete_expression,target, minimum_su = 0.05, verbose = TRUE)
 }

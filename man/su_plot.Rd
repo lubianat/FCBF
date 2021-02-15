@@ -4,12 +4,12 @@
 \alias{su_plot}
 \title{Symmetrical Uncertainty diagnostic}
 \usage{
-su_plot(x, y)
+su_plot(feature_table, target_vector)
 }
 \arguments{
-\item{x}{A table of features (observations in rows, variables in columns)}
+\item{feature_table}{A table of features (observations in rows, variables in columns)}
 
-\item{y}{A target vector, factor containing classes of the observations. Note: the
+\item{target_vector}{A target vector, factor containing classes of the observations. Note: the
 observations must be in the same order as the parameter x.}
 }
 \value{

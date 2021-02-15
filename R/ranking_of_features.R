@@ -17,7 +17,7 @@
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' infection <- SummarizedExperiment::colData(scDengue)
 #' target <- infection$infection
-#' su_values <- get_su(discrete_expression[,],target[])
+#' su_values <- get_su_for_feature_table_and_vector(discrete_expression[,],target[])
 #' su_values[1:10,]
 get_su_for_feature_table_and_vector <- function(feature_table, target_vector, samples_in_rows = FALSE, bar_of_progress = FALSE) {
   if (!samples_in_rows){
@@ -61,7 +61,7 @@ NULL
 #' discrete_expression <- as.data.frame(discretize_exprs(exprs))
 #' infection <- SummarizedExperiment::colData(scDengue)
 #' target <- infection$infection
-#' ig_values <- get_ig(discrete_expression[,],target[])
+#' ig_values <- get_ig_for_feature_table_and_vector(discrete_expression[,],target[])
 #' ig_values[1:10,]
 
 

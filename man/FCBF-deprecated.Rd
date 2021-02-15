@@ -50,7 +50,7 @@ For \code{IG}, use \code{\link{get_IG_for_vector_pair}}.
 For \code{get_su}, use \code{\link{get_su_for_feature_table_and_vector}}.
 
 
-For \code{get_su}, use \code{\link{get_su_for_feature_table_and_vector}}.
+For \code{get_su}, use \code{\link{get_ig_for_feature_table_and_vector}}.
 }
 
 \keyword{internal}
